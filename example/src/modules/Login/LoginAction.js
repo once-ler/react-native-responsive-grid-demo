@@ -8,11 +8,23 @@ export default (state = {}, action) => {
   switch (action.type) {
     case LOGIN_USER:
       return {...state, payload: action.payload}
+    case LOGIN_USER_SUCCESS:
+      return {...state, payload: action.payload}
     case LOGIN_USER_CANCELLED:
       return state
-      case LOGIN_USER_REJECTED:
+    case LOGIN_USER_REJECTED:
       return { ...state, payload: action.payload, error: action.error }  
     default:
       return state
   }
 }
+
+export const login = (payload) => ({
+  type: LOGIN_USER,
+  payload
+})
+
+export const loginUserFulfilled = (payload) => ({
+  type: LOGIN_USER_SUCCESS,
+  payload
+})

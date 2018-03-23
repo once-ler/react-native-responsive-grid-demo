@@ -1,8 +1,10 @@
 /* @flow */
 import themeAction from './App/ThemeAction'
-import userAction from './App/UserAction'
+import loginAction from './Login/LoginAction'
+import userAction from './User/UserAction'
 
 export default {
   themeAction,
+  loginAction,
   userAction
-};
+}

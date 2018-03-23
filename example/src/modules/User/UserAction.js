@@ -8,11 +8,11 @@ export default (state = {}, action) => {
   switch (action.type) {
     case FETCH_USER:
       return {...state, payload: action.payload}
-    case FETCH_USER:
-    return {...state, payload: action.payload}
+    case FETCH_USER_SUCCESS:
+      return {...state, payload: action.payload}
     case FETCH_USER_CANCELLED:
       return state
-      case FETCH_USER_REJECTED:
+    case FETCH_USER_REJECTED:
       return { ...state, payload: action.payload, error: action.error }  
     default:
       return state

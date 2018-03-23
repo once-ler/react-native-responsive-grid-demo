@@ -7,7 +7,7 @@ import compose from 'recompose/compose'
 import * as loginActions from './Action'
 
 const enhanceWithHandlers = withHandlers({
-  onLoginPress: props => () => props.dispatch(loginActions.login())
+  onLoginPress: ({dispatch}) => () => dispatch(loginActions.login())
 })
 
 const connectFunc = connect(
@@ -15,10 +15,10 @@ const connectFunc = connect(
   dispatch => bindActionCreators(loginActions, dispatch)
 )
 
-const Presentation = props => (
+const Presentation = ({onLoginPress}) => (
   <View>
-  <Button large onPress={ () => this.onLoginPress()} title="Continue">
-    <Text> Continue</Text>
+  <Button large onPress={ () => onLoginPress()} title="Continue">
+    <Text>Continue</Text>
   </Button>
   </View>
 )
