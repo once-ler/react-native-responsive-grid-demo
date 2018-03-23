@@ -10,6 +10,7 @@
     "native-base": "^2.3.10",
     "react": "^16.2.0",
     "react-native": "0.54.0",
+    "react-native-navigation": "^1.1.412",
     "react-native-responsive-grid": "^0.40.7",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
