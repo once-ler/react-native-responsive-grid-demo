@@ -1,21 +1,18 @@
 /* @flow */
 import React from 'react'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import withHandlers from 'recompose/withHandlers'
 import compose from 'recompose/compose'
+import * as loginActions from './Action'
 
-const mapDispatchToProps = dispatch => ({
-  dispatch,
-  submitAction
+const enhanceWithHandlers = withHandlers({
+  onLoginPress: props => () => props.dispatch(loginActions.login())
 })
-
-const submitAction = data => (dispatch, getState) => {
-  dispatch({ type: 'LOGIN_FORM_CLEAR_ERROR' });
-  dispatch({ type: 'LOGIN', data });
-}
 
 const connectFunc = connect(
   state => ({ loginError: state.auth.error }),
-  mapDispatchToProps
+  dispatch => bindActionCreators(loginActions, dispatch)
 )
 
 const Presentation = props => (
@@ -28,5 +25,5 @@ const Presentation = props => (
 
 export default compose(
   connectFunc,
-  SimplerForm({id: 'login'}),
+  enhanceWithHandlers
 )(Presentation)

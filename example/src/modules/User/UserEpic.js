@@ -1,3 +1,7 @@
+import * as userActions from './UserAction'
+
+const {FETCH_USER, FETCH_USER_CANCELLED, FETCH_USER_REJECTED, fetchUserFulfilled} = userActions
+
 export default action$ => {
   action$ofType(FETCH_USER)
     .mergeMap(action => 
