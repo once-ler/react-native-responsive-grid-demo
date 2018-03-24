@@ -1,8 +1,16 @@
-import * as userActions from './LoginAction'
+import {
+  LOGIN_USER,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_CANCELLED,
+  LOGIN_USER_REJECTED,
+  loginUserFulfilled
+} from './LoginAction'
+import {
+  ROOT_AFTER_LOGIN,
+  changeAppRoot
+} from '../App/AppAction'
 
-const {LOGIN_USER, LOGIN_USER_CANCELLED, LOGIN_USER_REJECTED, loginUserFulfilled} = userActions
-
-export default action$ => {
+export const loginEpic = action$ => {
   action$ofType(LOGIN_USER)
     .mergeMap(action => 
       fetch(`https://jsonplaceholder.typicode.com/users/${action.payload}`)
@@ -14,4 +22,10 @@ export default action$ => {
           error: true
         }))
     )
+}
+
+// Switch to tab base screen after successful login.
+export const loginSuccessEpic = action$ => {
+  action$ofType(LOGIN_USER_SUCCESS)
+    .mapTo(changeAppRoot(ROOT_AFTER_LOGIN))
 }
