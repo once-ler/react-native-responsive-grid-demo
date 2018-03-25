@@ -16,7 +16,8 @@ export default class App extends Component {
   }
 
   onStoreUpdate() {
-    const {root} = store.getState();
+    const {root} = store.getState().app;
+    
     // handle a root change
     // if your app doesn't change roots in runtime, you can remove onStoreUpdate() altogether
     if (this.currentRoot != root) {
@@ -32,6 +33,7 @@ export default class App extends Component {
   startApp(root) {
     switch (root) {
       case ROOT_LOGIN:
+      console.log(ROOT_LOGIN)
         return Navigation.startSingleScreenApp({
           screen: {
             screen: 'example.Login', // unique ID registered with Navigation.registerScreen

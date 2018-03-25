@@ -10,16 +10,18 @@ import {
   changeAppRoot
 } from '../App/AppAction'
 import '../rxjsOperators'
+import { ajax } from 'rxjs/observable/dom/ajax'
+import { Observable } from 'rxjs/Observable'
 
 export const loginEpic = action$ =>
   action$.ofType(LOGIN_USER)
-    .mergeMap(action => 
-      fetch(`https://jsonplaceholder.typicode.com/users/${action.payload}`)
-        .map(response => loginUserFulfilled(response.json()))
+    .mergeMap(action =>
+      ajax.getJSON(`https://jsonplaceholder.typicode.com/users/${action.payload}`)
+        .map(d => loginUserFulfilled(d.response))
         .takeUntil(action$.ofType(LOGIN_USER_CANCELLED))
         .catch(error => Observable.of({
           type: LOGIN_USER_REJECTED,
-          payload: error.xhr.response,
+          payload: error,
           error: true
         }))
     )

@@ -1,12 +1,14 @@
 import mergeMap from 'rxjs'
 import {FETCH_USER, FETCH_USER_CANCELLED, FETCH_USER_REJECTED, fetchUserFulfilled} from './UserAction'
 import '../rxjsOperators'
+import { ajax } from 'rxjs/observable/dom/ajax'
+import { Observable } from 'rxjs/Observable'
 
 export const userEpic = action$ =>
   action$.ofType(FETCH_USER)
     .mergeMap(action => 
-      fetch(`https://jsonplaceholder.typicode.com/users/${action.payload}`)
-        .map(response => fetchUserFulfilled(response.json()))
+      ajax.getJSON(`https://jsonplaceholder.typicode.com/users/${action.payload}`)
+        .map(d => fetchUserFulfilled(d.response)
         .takeUntil(action$.ofType(FETCH_USER_CANCELLED))
         .catch(error => Observable.of({
           type: FETCH_USER_REJECTED,
@@ -14,6 +16,8 @@ export const userEpic = action$ =>
           error: true
         }))
     )
+
+// reference: https://github.com/Reactive-Extensions/RxJS-DOM/blob/master/doc/operators/ajax.md
 
 /*
 fetch(url, {

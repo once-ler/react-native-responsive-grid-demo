@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react'
+import {View, Button, Text} from 'react-native'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import withHandlers from 'recompose/withHandlers'
@@ -7,11 +8,11 @@ import compose from 'recompose/compose'
 import * as loginActions from './LoginAction'
 
 const enhanceWithHandlers = withHandlers({
-  onLoginPress: ({dispatch}) => () => dispatch(loginActions.login())
+  onLoginPress: ({login}) => () => login(1)
 })
 
 const connectFunc = connect(
-  state => ({ loginError: state.auth.error }),
+  state => ({ loginError: state.login.error }),
   dispatch => bindActionCreators(loginActions, dispatch)
 )
 
