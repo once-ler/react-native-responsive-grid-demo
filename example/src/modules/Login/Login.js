@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import withHandlers from 'recompose/withHandlers'
 import compose from 'recompose/compose'
-import * as loginActions from './Action'
+import * as loginActions from './LoginAction'
 
 const enhanceWithHandlers = withHandlers({
   onLoginPress: ({dispatch}) => () => dispatch(loginActions.login())

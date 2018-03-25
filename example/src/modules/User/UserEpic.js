@@ -1,9 +1,9 @@
-import * as userActions from './UserAction'
+import mergeMap from 'rxjs'
+import {FETCH_USER, FETCH_USER_CANCELLED, FETCH_USER_REJECTED, fetchUserFulfilled} from './UserAction'
+import '../rxjsOperators'
 
-const {FETCH_USER, FETCH_USER_CANCELLED, FETCH_USER_REJECTED, fetchUserFulfilled} = userActions
-
-export default action$ => {
-  action$ofType(FETCH_USER)
+export const userEpic = action$ =>
+  action$.ofType(FETCH_USER)
     .mergeMap(action => 
       fetch(`https://jsonplaceholder.typicode.com/users/${action.payload}`)
         .map(response => fetchUserFulfilled(response.json()))
@@ -14,7 +14,6 @@ export default action$ => {
           error: true
         }))
     )
-}
 
 /*
 fetch(url, {

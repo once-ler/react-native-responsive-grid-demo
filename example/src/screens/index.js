@@ -1,7 +1,7 @@
 import { Navigation } from 'react-native-navigation'
-import Login from './modules/Login/Login'
-import HomeTab from './modules/Home/HomeTab'
-import SearchTab from './modules/Home/SearchTab'
+import Login from '../modules/Login/Login'
+import HomeTab from '../modules/Home/HomeTab'
+import SearchTab from '../modules/Home/SearchTab'
 
 export default (store, Provider) =>  {
   Navigation.registerComponent('ReactNativeReduxExample.Login', () => Login, store, Provider);

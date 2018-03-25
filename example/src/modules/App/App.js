@@ -1,4 +1,5 @@
 /* @flow */
+import React, { Component } from 'react'
 import {Navigation} from 'react-native-navigation'
 import createStore from '../../createStore'
 import * as appActions from './AppAction' 
@@ -7,20 +8,25 @@ const {changeAppRoot, ROOT_LOGIN, ROOT_AFTER_LOGIN} = appActions
 const persistedData = {}
 const store = createStore(persistedData)
 
-export default class App {
-  constructor() {
+export default class App extends Component {
+  constructor(props) {
+    super(props)
     store.subscribe(this.onStoreUpdate.bind(this))
     store.dispatch(changeAppRoot(ROOT_LOGIN))
   }
 
   onStoreUpdate() {
-    const {root} = store.getState().app;
+    const {root} = store.getState();
     // handle a root change
     // if your app doesn't change roots in runtime, you can remove onStoreUpdate() altogether
     if (this.currentRoot != root) {
       this.currentRoot = root
       this.startApp(root)
     }
+  }
+
+  render() {
+    return null
   }
 
   startApp(root) {
@@ -40,8 +46,8 @@ export default class App {
             {
               label: 'Home',
               screen: 'example.HomeTab',
-              icon: require('./img/checkmark.png'),
-              selectedIcon: require('./img/checkmark.png'),
+              icon: require('../../img/checkmark.png'),
+              selectedIcon: require('../../img/checkmark.png'),
               title: 'Hey',
               overrideBackPress: false,
               navigatorStyle: {}
@@ -49,8 +55,8 @@ export default class App {
             {
               label: 'Search',
               screen: 'example.SearchTab',
-              icon: require('./img/checkmark.png'),
-              selectedIcon: require('./img/checkmark.png'),
+              icon: require('../../img/checkmark.png'),
+              selectedIcon: require('../../img/checkmark.png'),
               title: 'Hey',
               navigatorStyle: {}
             }

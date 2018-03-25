@@ -9,9 +9,10 @@ import {
   ROOT_AFTER_LOGIN,
   changeAppRoot
 } from '../App/AppAction'
+import '../rxjsOperators'
 
-export const loginEpic = action$ => {
-  action$ofType(LOGIN_USER)
+export const loginEpic = action$ =>
+  action$.ofType(LOGIN_USER)
     .mergeMap(action => 
       fetch(`https://jsonplaceholder.typicode.com/users/${action.payload}`)
         .map(response => loginUserFulfilled(response.json()))
@@ -22,10 +23,8 @@ export const loginEpic = action$ => {
           error: true
         }))
     )
-}
 
 // Switch to tab base screen after successful login.
-export const loginSuccessEpic = action$ => {
-  action$ofType(LOGIN_USER_SUCCESS)
+export const loginSuccessEpic = action$ =>
+  action$.ofType(LOGIN_USER_SUCCESS)
     .mapTo(changeAppRoot(ROOT_AFTER_LOGIN))
-}
