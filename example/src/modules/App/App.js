@@ -1,5 +1,4 @@
 /* @flow */
-import React, { Component } from 'react'
 import {Navigation} from 'react-native-navigation'
 import createStore from '../../createStore'
 import * as appActions from './AppAction' 
@@ -8,9 +7,8 @@ const {changeAppRoot, ROOT_LOGIN, ROOT_AFTER_LOGIN} = appActions
 const persistedData = {}
 const store = createStore(persistedData)
 
-export default class App extends Component {
+export default class App {
   constructor(props) {
-    super(props)
     store.subscribe(this.onStoreUpdate.bind(this))
     store.dispatch(changeAppRoot(ROOT_LOGIN))
   }
@@ -24,10 +22,6 @@ export default class App extends Component {
       this.currentRoot = root
       this.startApp(root)
     }
-  }
-
-  render() {
-    return null
   }
 
   startApp(root) {
