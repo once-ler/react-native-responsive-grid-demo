@@ -15,6 +15,7 @@ export const userEpic = action$ =>
           payload: error.xhr.response,
           error: true
         }))
+      )
     )
 
 // reference: https://github.com/Reactive-Extensions/RxJS-DOM/blob/master/doc/operators/ajax.md
