@@ -55,6 +55,15 @@ export default class App {
               selectedIcon: require('../../img/checkmark.png'),
               title: 'Hey',
               navigatorStyle: {}
+            },
+            {
+              label: 'FlatList',
+              screen: 'example.FlatListTab',
+              icon: require('../../img/checkmark.png'),
+              selectedIcon: require('../../img/checkmark.png'),
+              title: 'Long List',
+              overrideBackPress: false,
+              navigatorStyle: {}
             }
           ],
           animationType: 'slide-down',
