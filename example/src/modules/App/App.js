@@ -1,5 +1,6 @@
 /* @flow */
 import {Navigation} from 'react-native-navigation'
+import Icon from 'react-native-vector-icons/Ionicons'
 import createStore from '../../createStore'
 import * as appActions from './AppAction' 
 
@@ -7,10 +8,44 @@ const {changeAppRoot, ROOT_LOGIN, ROOT_AFTER_LOGIN} = appActions
 const persistedData = {}
 const store = createStore(persistedData)
 
+let settingsIcon;
+let settingsOutlineIcon;
+let peopleIcon;
+let iosNavigateOutline;
+let iosNavigate;
+
+const populateIcons = () => 
+  new Promise(function (resolve, reject) {
+    Promise.all(
+      [
+        Icon.getImageSource('ios-settings', 30),
+        Icon.getImageSource('ios-settings-outline', 30),
+        Icon.getImageSource('ios-people', 30),
+        Icon.getImageSource('ios-navigate-outline', 30),
+        Icon.getImageSource('ios-navigate', 30)
+      ]
+    ).then((values) => {
+      settingsIcon = values[0];
+      settingsOutlineIcon = values[1];
+      peopleIcon = values[2];
+      iosNavigateOutline = values[3];
+      iosNavigate = values[4];
+      resolve(true);
+    }).catch((error) => {
+      console.log(error);
+      reject(error);
+    }).done();
+  })
+
 export default class App {
-  constructor(props) {
-    store.subscribe(this.onStoreUpdate.bind(this))
-    store.dispatch(changeAppRoot(ROOT_LOGIN))
+  constructor() {
+    populateIcons().then(() => {
+      // Start app only if all icons are loaded
+      store.subscribe(this.onStoreUpdate.bind(this))
+      store.dispatch(changeAppRoot(ROOT_LOGIN))
+    }).catch((error) => {
+      console.error(error);
+    })
   }
 
   onStoreUpdate() {
