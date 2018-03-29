@@ -94,8 +94,8 @@ export default class App {
             {
               label: 'FlatList',
               screen: 'example.FlatListTab',
-              icon: require('../../img/checkmark.png'),
-              selectedIcon: require('../../img/checkmark.png'),
+              icon: settingsOutlineIcon,
+              selectedIcon: settingsIcon,
               title: 'Long List',
               overrideBackPress: false,
               navigatorStyle: {}

@@ -4,6 +4,8 @@ import {
   Text,
   ScrollView
 } from 'react-native'
+import {connect} from 'react-redux'
+import compose from 'recompose/compose'
 
 import { Row, Column as Col, Grid} from 'react-native-responsive-grid'
 import faker from 'faker';
@@ -24,7 +26,7 @@ const randomUsers = (count = 10) => {
   return arr
 }
 
-export default class Home extends Component {
+class FlatListTab extends Component {
   state = {
     refreshing: false,
     data: randomUsers(10),
@@ -48,6 +50,7 @@ export default class Home extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
         <FlatList
           data={this.state.data}
@@ -98,3 +101,12 @@ export default class Home extends Component {
     )
   }
 }
+
+const connectFunc = connect(
+  state => ({ flatListData: state.data }),
+  // dispatch => bindActionCreators(loginActions, dispatch)
+)
+
+export default compose(
+  connectFunc
+)(FlatListTab)
