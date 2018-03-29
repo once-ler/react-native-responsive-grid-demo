@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import createStore from '../../createStore'
 import * as appActions from './AppAction' 
 
-const {changeAppRoot, ROOT_LOGIN, ROOT_AFTER_LOGIN} = appActions
+const {changeAppRoot, saveIcons, ROOT_LOGIN, ROOT_AFTER_LOGIN} = appActions
 const persistedData = {}
 const store = createStore(persistedData)
 
@@ -43,6 +43,7 @@ export default class App {
       // Start app only if all icons are loaded
       store.subscribe(this.onStoreUpdate.bind(this))
       store.dispatch(changeAppRoot(ROOT_LOGIN))
+      store.dispatch(saveIcons({settingsIcon}))
     }).catch((error) => {
       console.error(error);
     })

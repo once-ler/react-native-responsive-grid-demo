@@ -103,7 +103,7 @@ class FlatListTab extends Component {
 }
 
 const connectFunc = connect(
-  state => ({ flatListData: state.data }),
+  state => ({ flatListData: state.data, icons: state.app.icons }),
   // dispatch => bindActionCreators(loginActions, dispatch)
 )
 
