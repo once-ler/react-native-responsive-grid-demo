@@ -2,13 +2,28 @@ import React, { Component } from 'react';
 import {
   FlatList,
   Text,
-  ScrollView
+  ScrollView,
+  TouchableHighlight,
+  View,
+  StyleSheet
 } from 'react-native'
 import {connect} from 'react-redux'
 import compose from 'recompose/compose'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 import { Row, Column as Col, Grid} from 'react-native-responsive-grid'
-import faker from 'faker';
+import faker from 'faker'
+
+const styles = StyleSheet.create(
+  {
+    icon: {
+      textAlign: 'center',
+      marginRight: 10,
+      height: 50,
+      width: 50,
+    }
+  }
+)
 
 let j = 0
 const randomUsers = (count = 10) => {
@@ -51,6 +66,13 @@ class FlatListTab extends Component {
 
   render() {
     console.log(this.props)
+
+    const onPress = () => {
+      this.props.navigator.push({
+        screen: 'example.SubView'
+      })
+    }
+
     return (
         <FlatList
           data={this.state.data}
@@ -91,6 +113,11 @@ class FlatListTab extends Component {
                   </Col>
                   <Col size={8} offset={-6} hAlign='right'>
                         <Text>{item.index}</Text>
+                        <TouchableHighlight onPress={onPress}>
+                          <View>
+                            <Icon name="ios-arrow-forward" size={50} style={styles.icon} color="#900"/>
+                          </View>
+                        </TouchableHighlight>
                   </Col>
                 </Row>
                 )}
