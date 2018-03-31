@@ -5,63 +5,29 @@ import {
   ScrollView,
   TouchableHighlight,
   View,
-  StyleSheet
 } from 'react-native'
 import {connect} from 'react-redux'
 import compose from 'recompose/compose'
+import {bindActionCreators} from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import { Row, Column as Col, Grid} from 'react-native-responsive-grid'
-import faker from 'faker'
 
-const styles = StyleSheet.create(
-  {
-    icon: {
-      textAlign: 'center',
-      marginRight: 10,
-      height: 50,
-      width: 50,
-    }
-  }
-)
-
-let j = 0
-const randomUsers = (count = 10) => {
-  const arr = [];
-  for (let i = 0; i < count; i++) {
-    arr.push({
-      key: faker.random.uuid(),
-      date: faker.date.weekday(),
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      job: faker.name.jobTitle(),
-      index: j++
-    })
-  }
-  return arr
-}
+import styles from './Style'
+import * as listActions from './FlatListAction'
 
 class FlatListTab extends Component {
-  state = {
-    refreshing: false,
-    data: randomUsers(10),
-  };
+  constructor(props) {
+    super(props)
+    props.listFetch()
+  }
 
   onEndReached = () => {
-    const data = [
-        ...this.state.data,
-        ...randomUsers(10),
-      ]
-
-    this.setState(state => ({
-      data
-    }));
+    this.props.listFetchReachedEnd()
   };
 
   onRefresh = () => {
-    this.setState({
-      data: randomUsers(10),
-    });
+    this.props.listFetch()
   }
 
   render() {
@@ -75,11 +41,11 @@ class FlatListTab extends Component {
 
     return (
         <FlatList
-          data={this.state.data}
+          data={this.props.data}
           initialNumToRender={10}
           onEndReachedThreshold={1}
           onEndReached={this.onEndReached}
-          refreshing={this.state.refreshing}
+          refreshing={this.props.refreshing}
           onRefresh={this.onRefresh}
           renderItem={
             ({ item }) => {
@@ -130,8 +96,8 @@ class FlatListTab extends Component {
 }
 
 const connectFunc = connect(
-  state => ({ flatListData: state.data, icons: state.app.icons }),
-  // dispatch => bindActionCreators(loginActions, dispatch)
+  state => ({ refreshing: state.home.refreshing, data: state.home.payload, icons: state.app.icons }),
+  dispatch => bindActionCreators(listActions, dispatch)
 )
 
 export default compose(
