@@ -53,9 +53,16 @@ public class MainApplication extends NavigationApplication {
     return BuildConfig.DEBUG;
   }
 
-  @Nullable
-  @Override
-  public List<ReactPackage> createAdditionalReactPackages() {
-    return null;
-  }
+  protected List < ReactPackage > getPackages() {
+      // Add additional packages you require here
+      // No need to add RnnPackage and MainReactPackage
+      return Arrays. < ReactPackage > asList(
+        new VectorIconsPackage()
+      );
+    }
+
+    @Override
+    public List < ReactPackage > createAdditionalReactPackages() {
+      return getPackages();
+    }
 }
