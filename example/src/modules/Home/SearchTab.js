@@ -1,28 +1,36 @@
-import React from 'react'
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native'
+import React, { PureComponent } from 'react';
+import {View} from 'react-native'
+import { Container, Header, Item, Input, Icon, Button, Text } from 'native-base';
+import { SearchBar } from 'react-native-elements'
 
-export default props => (
-  <View style={styles.container}>
-    <Text style={styles.welcome}>
-        SEARCH
-    </Text>
-  </View>
-)
+export default class SearchExample extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      query: ''  
+    }
+  }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-})
+  render() {
+    return (
+      <Container>
+          <Header searchBar rounded>
+            <Item>
+              <Icon name="ios-search" />
+              <Input 
+                autoCapitalize="none"
+                placeholder="Search"
+                value={this.state.query}
+                onChangeText={query => {this.setState({query}); setTimeout(() => console.log(this.state.query), 100); }} 
+                ref={ (c) => this.inputEl = c }  
+              />
+              <Icon name="ios-people" />
+            </Item>
+            <Button transparent>
+              <Text>Clear</Text>
+            </Button>
+          </Header>
+        </Container>
+    )
+  }
+}
