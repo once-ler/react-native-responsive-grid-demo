@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import {View} from 'react-native'
 import { Container, Header, Item, Input, Icon, Button, Text } from 'native-base';
-import { SearchBar } from 'react-native-elements'
 
 export default class SearchExample extends PureComponent {
   constructor(props) {
