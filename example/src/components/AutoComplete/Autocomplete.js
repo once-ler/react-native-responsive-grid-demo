@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
+import {  
   FlatList,
+  ListView,
   Platform,
   StyleSheet,
   View,
@@ -48,6 +49,10 @@ class Autocomplete extends Component {
      * the result list.
      */
     listContainerStyle: ViewPropTypes.style,
+    /**
+     * These style will be applied to the result list.
+     */
+    listStyle: ListView.propTypes.style,
     /**
      * `onShowResults` will be called when list is going to
      * show/hide results.
@@ -111,26 +116,31 @@ class Autocomplete extends Component {
 
   renderResultList() {
     const {
-      data,      
+      data,
+      itemHeight,
       keyboardShouldPersistTaps,
       keyExtractor,
+      listStyle,
+      maxItems,
       onEndReached,
       onEndReachedThreshold,
       renderItem,
-      renderSeparator      
+      renderSeparator
     } = this.props;
     
+    const height = Math.min(itemHeight*data.length,maxItems*itemHeight)
+    console.log(height)
     return (
       <FlatList
         ref={(resultList) => { this.resultList = resultList; }}
         data={data}
+        ItemSeparatorComponent={renderSeparator}
         keyboardShouldPersistTaps={keyboardShouldPersistTaps}
         keyExtractor={keyExtractor}        
         onEndReached={onEndReached}
         onEndReachedThreshold={onEndReachedThreshold}
         renderItem={renderItem}
-        renderSeparator={renderSeparator}
-        style={[styles.list]}
+        style={[styles.list,{height},listStyle]}
       />
     );    
   }
@@ -158,7 +168,7 @@ class Autocomplete extends Component {
       data
     } = this.props;
     const showResults = data.length > 0
-    
+
     // Notify listener if the suggestion will be shown.
     onShowResults && onShowResults(showResults);
 
@@ -169,7 +179,7 @@ class Autocomplete extends Component {
         </View>
         {showResults && (
           <View
-            style={listContainerStyle}
+            style={[styles.listContainer, listContainerStyle]}
             onStartShouldSetResponderCapture={onStartShouldSetResponderCapture}
           >
             {showResults && this.renderResultList()}
@@ -193,6 +203,9 @@ const androidStyles = {
   inputContainer: {
     ...border,
     marginBottom: 0
+  },
+  listContainer: {
+    flex: 1
   },
   list: {
     ...border,
