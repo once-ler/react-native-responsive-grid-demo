@@ -6,10 +6,17 @@ import {
   listFetchFullfilled,
   LIST_FETCH_REACHED_END
 } from './FlatListAction'
-import '../rxjsOperators'
-// import { ajax } from 'rxjs/observable/dom/ajax'
-import { fromPromise } from 'rxjs/observable/fromPromise'
-import { Observable } from 'rxjs/Observable'
+import {of, fromPromise} from 'rxjs'
+import {
+  map, 
+  catchError, 
+  switchMap, 
+  mergeMap, 
+  filter, 
+  debounceTime, 
+  distinctUntilChanged, 
+  takeUntil 
+} from 'rxjs/operators'
 import faker from 'faker'
 
 let j = 0
@@ -37,19 +44,24 @@ const fakePromise = willReject => {
   })
 }
 
-export const listFetchEpic = action$ =>
-  action$.ofType(LIST_FETCH)
-    .mergeMap(action =>
-      fromPromise(fakePromise(false))
-        .map(d => listFetchFullfilled(d))
-        .takeUntil(action$.ofType(LIST_FETCH_CANCELLED))
-        .catch(error => Observable.of({
+export const listFetchEpic = (action$, state$) =>
+  action$.pipe(
+    ofType(LIST_FETCH),
+    mergeMap(action =>
+      fromPromise(fakePromise(false)).pipe(
+        map(d => listFetchFullfilled(d)),
+        takeUntil(action$.pipe(ofType(LIST_FETCH_CANCELLED))),
+        catchError(error => of({
           type: LIST_FETCH_REJECTED,
           payload: error,
           error: true
         }))
+      )
     )
+  )
 
 export const listFetchReachedEndEpic = action$ =>
-  action$.ofType(LIST_FETCH_REACHED_END)
-    .mapTo({type:LIST_FETCH})
+  action$.pipe(
+    ofType(LIST_FETCH_REACHED_END),
+    mapTo({type:LIST_FETCH})  
+  )
