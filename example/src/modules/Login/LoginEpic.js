@@ -21,14 +21,15 @@ import {
   distinctUntilChanged, 
   takeUntil 
 } from 'rxjs/operators'
+import { ofType } from 'redux-observable'
 
-export const loginEpic = action$ =>
+export const loginEpic = action$ => 
   action$.pipe(
     ofType(LOGIN_USER),
     mergeMap(action =>
-      ajax.getJSON(`https://jsonplaceholder.typicode.com/users/${action.payload}`).pipe(
+      ajax(`https://jsonplaceholder.typicode.com/users/${action.payload}`).pipe(
         map(d => loginUserFulfilled(d.response)),
-        takeUntil(action$.ofType(LOGIN_USER_CANCELLED)),
+        takeUntil(action$.pipe(ofType(LOGIN_USER_CANCELLED))),
         catchError(error => of({
           type: LOGIN_USER_REJECTED,
           payload: error,
@@ -42,5 +43,5 @@ export const loginEpic = action$ =>
 export const loginSuccessEpic = action$ =>
   action$.pipe(
     ofType(LOGIN_USER_SUCCESS),
-    mapTo(changeAppRoot(ROOT_AFTER_LOGIN))
+    mergeMap(() => of(changeAppRoot(ROOT_AFTER_LOGIN)))
   )

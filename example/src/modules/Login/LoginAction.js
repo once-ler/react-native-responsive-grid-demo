@@ -7,9 +7,9 @@ export const LOGIN_USER_REJECTED = 'LOGIN_USER_REJECTED'
 export default (state = {}, action) => {
   switch (action.type) {
     case LOGIN_USER:
-      console.log(action.payload)
       return {...state, payload: action.payload}
     case LOGIN_USER_SUCCESS:
+      console.log(action)
       return {...state, payload: action.payload}
     case LOGIN_USER_CANCELLED:
       return state

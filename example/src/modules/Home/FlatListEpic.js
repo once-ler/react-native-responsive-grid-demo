@@ -6,7 +6,7 @@ import {
   listFetchFullfilled,
   LIST_FETCH_REACHED_END
 } from './FlatListAction'
-import {of, fromPromise} from 'rxjs'
+import {of, from} from 'rxjs'
 import {
   map, 
   catchError, 
@@ -17,6 +17,7 @@ import {
   distinctUntilChanged, 
   takeUntil 
 } from 'rxjs/operators'
+import { ofType } from 'redux-observable'
 import faker from 'faker'
 
 let j = 0
@@ -48,7 +49,7 @@ export const listFetchEpic = (action$, state$) =>
   action$.pipe(
     ofType(LIST_FETCH),
     mergeMap(action =>
-      fromPromise(fakePromise(false)).pipe(
+      from(fakePromise(false)).pipe(
         map(d => listFetchFullfilled(d)),
         takeUntil(action$.pipe(ofType(LIST_FETCH_CANCELLED))),
         catchError(error => of({
@@ -63,5 +64,5 @@ export const listFetchEpic = (action$, state$) =>
 export const listFetchReachedEndEpic = action$ =>
   action$.pipe(
     ofType(LIST_FETCH_REACHED_END),
-    mapTo({type:LIST_FETCH})  
+    mergeMap(() => of({type:LIST_FETCH}))  
   )

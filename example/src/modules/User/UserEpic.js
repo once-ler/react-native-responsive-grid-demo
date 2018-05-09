@@ -1,4 +1,3 @@
-import mergeMap from 'rxjs'
 import {FETCH_USER, FETCH_USER_CANCELLED, FETCH_USER_REJECTED, fetchUserFulfilled} from './UserAction'
 import { ajax } from 'rxjs/ajax'
 import {of} from 'rxjs'
@@ -12,14 +11,15 @@ import {
   distinctUntilChanged, 
   takeUntil 
 } from 'rxjs/operators'
+import { ofType } from 'redux-observable'
 
 export const userEpic = action$ =>
   action$.pipe(
     ofType(FETCH_USER),
     mergeMap(action => 
-      ajax.getJSON(`https://jsonplaceholder.typicode.com/users/${action.payload}`).pipe(
+      ajax(`https://jsonplaceholder.typicode.com/users/${action.payload}`).pipe(
         map(d => fetchUserFulfilled(d.response)),
-        takeUntil(action$.ofType(FETCH_USER_CANCELLED)),
+        takeUntil(action$.pipe(ofType(FETCH_USER_CANCELLED))),
         catchError(error => Observable.of({
           type: FETCH_USER_REJECTED,
           payload: error.xhr.response,
