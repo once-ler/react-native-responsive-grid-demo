@@ -5,19 +5,16 @@ import {
   ListView,
   Platform,
   StyleSheet,
+  TextInput as Input,
+  Text,
   View,
   ViewPropTypes as RNViewPropTypes
 } from 'react-native';
-
-import {
-  Input, Text
-} from 'native-base';
 
 const ViewPropTypes = RNViewPropTypes || View.propTypes;
 
 class Autocomplete extends Component {
   static propTypes = {
-    ...Input.propTypes,
     /**
      * These styles will be applied to the container which
      * surrounds the autocomplete component.
@@ -229,7 +226,7 @@ const iosStyles = {
   input: {
     backgroundColor: 'white',
     height: 40,
-    paddingLeft: 3
+    paddingLeft: 3    
   },
   list: {
     ...border,
@@ -246,7 +243,8 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: 'white',
     height: 40,
-    paddingLeft: 3
+    paddingLeft: 5,
+    fontSize: 17
   },
   ...Platform.select({
     android: { ...androidStyles },

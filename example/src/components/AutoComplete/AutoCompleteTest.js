@@ -3,12 +3,9 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
-  View
-} from 'react-native';
-
-import {
+  View,
   Text
-} from 'native-base';
+} from 'react-native';
 
 const API = 'http://mygene.info/v2/query?species=human&q='
 
