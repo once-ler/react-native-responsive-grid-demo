@@ -1,79 +1,83 @@
 /* @flow */
 import t from 'tcomb-form-native'
 import {connect} from 'react-redux'
+import withState from 'recompose/withState'
 import defaultProps from 'recompose/defaultProps'
 import withProps from 'recompose/withProps'
 import withHandlers from 'recompose/withHandlers'
 import compose from 'recompose/compose'
 import {bindActionCreators} from 'redux'
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native'
+import {Text, View, TouchableHighlight} from 'react-native'
 
+import {Person} from './UserProfileTypes'
 import * as profileActions from './UserProfileAction'
+import styles from './UserProfileStyles'
 
-const { form: {Form}, String, Boolean, Number, maybe: Option, struct: Class } = t
-
-const Person = Class({
-  name: String,
-  surname: Option(String),
-  age: Number,
-  rememberMe: Boolean
-})
-
-/*
-const onPress = props => {
-  // call getValue() to get the values of the form
-  // const value = props.refs.form.getValue();
-  const value = props.userProfile
-  if (value) { // if validation fails, value will be null
-    console.log(value); // value here is an instance of Person
-  }
-}
-*/
+const {form: {Form}} = t
 
 const connectFunc = connect(
   state => ({
-    profile: state.profile
+    profile: state.profile,
+    global: {
+      currentUser: state.global.currentUser,
+      currentState: state.global.currentState,
+      showState: state.global.showState
+    }
   }),
   dispatch => bindActionCreators(profileActions, dispatch)
 )
 
+const enhanceWithState = withState('formValues', 'setFormValues', {
+  username: '',
+  email: ''
+})
+
 const enhanceWithDefaultProps = defaultProps({
   classOf: Person,
   options: {},
-  styles: StyleSheet.create({
-    container: {
-      justifyContent: 'center',
-      marginTop: 50,
-      padding: 20,
-      backgroundColor: '#ffffff',
-    },
-    title: {
-      fontSize: 30,
-      alignSelf: 'center',
-      marginBottom: 30
-    },
-    buttonText: {
-      fontSize: 18,
-      color: 'white',
-      alignSelf: 'center'
-    },
-    button: {
-      height: 36,
-      backgroundColor: '#48BBEC',
-      borderColor: '#48BBEC',
-      borderWidth: 1,
-      borderRadius: 8,
-      marginBottom: 10,
-      alignSelf: 'stretch',
-      justifyContent: 'center'
-    }
-  })
+  styles: styles
 })
 
+const enhanceWithProps = withProps(props => ({
+  options: {
+    auto: 'placeholders',
+    fields: {
+      username: {
+        label: 'Profile.username',
+        maxLength: 12,
+        editable: !props.profile.form.isFetching,
+        hasError: props.profile.form.fields.usernameHasError,
+        error: props.profile.form.fields.usernameErrorMsg
+      },
+      email: {
+        label: 'Profile.email',
+        keyboardType: 'email-address',
+        editable: !props.profile.form.isFetching,
+        hasError: props.profile.form.fields.emailHasError,
+        error: props.profile.form.fields.emailErrorMsg
+      }
+    }
+  }
+}))
+
 const enhanceWithHandlers = withHandlers({
-  onPress: ({userProfile}) => e => {
-    if (userProfile)
-      console.log(userProfile)
+  onChange: ({onProfileFormFieldChange}) => ({value}) => {
+    if (value.username !== '') {
+      onProfileFormFieldChange('username', value.username)
+    }
+    if (value.email !== '') {
+      onProfileFormFieldChange('email', value.email)
+    }
+    // Should we update state for this?
+    // setValue({value})
+  },
+  onPress: ({updateProfile, profile, global}) => e => {
+    updateProfile(
+      profile.form.originalProfile.objectId,
+      profile.form.fields.username,
+      profile.form.fields.email,
+      global.currentUser
+    )
   }
 })
 
@@ -81,19 +85,25 @@ const Presentation = ({
   classOf,
   onPress,
   options,
-  styles
-}) => (
-  <View style={styles.container}>
-    <Form
-      ref="form"
-      type={classOf}
-      options={options}
-    />
-    <TouchableHighlight style={styles.button} onPress={onPress} underlayColor='#99d9f4'>
-      <Text style={styles.buttonText}>Save</Text>
-    </TouchableHighlight>
-  </View>
-)
+  styles,
+  profile
+}) => {
+  const { form: {fields} } = profile
+
+  return (
+    <View style={styles.container}>
+      <Form
+        ref="form"
+        type={classOf}
+        options={options}
+        value={fields}
+      />
+      <TouchableHighlight style={styles.button} onPress={onPress} underlayColor='#99d9f4'>
+        <Text style={styles.buttonText}>Save</Text>
+      </TouchableHighlight>
+    </View>
+  )
+}
 
 export default compose(
   connectFunc,

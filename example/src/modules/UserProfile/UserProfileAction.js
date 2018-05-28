@@ -23,8 +23,24 @@ export default (state = {}, action) => {
       return { ...state, isLoading: false }
     case FETCH_PROFILE_REJECTED:
     case UPDATE_PROFILE_REJECTED:
-      return { ...state, payload: action.payload, error: action.error, isLoading: false } 
+      return { ...state, payload: action.payload, error: action.error, isLoading: false }
+    case ON_PROFILE_FORM_FIELD_CHANGE: {
+      const {field, value} = action.payload
+      let nextState = state
+          .setIn(['form', 'fields', field], value)
+          .setIn(['form', 'error'], null)
+
+      return formValidation(
+        fieldValidation(nextState, action),
+        action
+      )
+    }
+
   }
+}
+
+export const fetchProfile = () => {
+  // ???
 }
 
 export const fetchProfileFulfilled = (payload) => ({
@@ -32,7 +48,16 @@ export const fetchProfileFulfilled = (payload) => ({
   payload
 })
 
+export const fetchProfle = () => {
+  // ???
+}
+
 export const updateProfileFulfilled = (payload) => ({
   type: UPDATE_PROFILE_SUCCESS,
   payload
+})
+
+export const onProfileFormFieldChange = (field, value) => ({
+  type: ON_PROFILE_FORM_FIELD_CHANGE,
+  payload: {field: field, value: value}
 })

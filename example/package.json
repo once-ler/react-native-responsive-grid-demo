@@ -1,12 +1,13 @@
 {
   "name": "react-native-responsive-grid-demo",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
   "dependencies": {
+    "immutable": "^3.8.2",
     "native-base": "^2.3.10",
     "react": "^16.2.0",
     "react-native": "0.54.0",
