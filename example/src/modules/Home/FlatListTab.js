@@ -52,9 +52,9 @@ class FlatListTab extends Component {
               return (
                 <Grid>{(state, setState) => (
                 <Row key={item.key} style={{paddingTop: '6%', paddingBottom: '6%', backgroundColor: 'white', borderBottomColor: 'lightgray', borderBottomWidth: 1}}>
-                  <Col size={80} offset={6} >
+                  <Col size={90} offset={6} >
                     <Row>
-                      <Col size={40} smSize={100}>
+                      <Col size={30} smSize={100}>
                         <Text style={{fontSize: 15, color: '#BD1206', fontWeight:'bold'}}>{String(item.date)}</Text>
                         <Row>
                           <Col size={5}>
@@ -65,14 +65,14 @@ class FlatListTab extends Component {
                             <Text style={{fontSize: 12, color: 'gray', lineHeight: 20}}>{item.job}</Text>
                           </Col>
                         </Row>
-                      </Col>
-                      <Col size={20} smSize={100}>
+                      </Col>                      
+                      <Col size={25} smSize={100}>
                         <Text style={{fontSize: 12, color: '#0a0a0a'}}>{item.firstName}</Text>
                       </Col>
-                      <Col size={20} smSize={100}>
+                      <Col size={25} smSize={100}>
                         <Text style={{fontSize: 12, color: '#0a0a0a'}}>{item.lastName}</Text>
                       </Col>
-                      <Col size={20} smSize={100}>
+                      <Col size={25} smSize={100}>
                         <Text style={{fontSize: 12, color: '#0a0a0a'}}>{item.date}</Text>
                       </Col> 
                     </Row>    

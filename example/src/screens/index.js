@@ -5,6 +5,7 @@ import SearchTab from '../modules/Home/SearchTab'
 import FlatListTab from '../modules/Home/FlatListTab'
 import BottomTabsSideMenu from '../modules/Home/BottomTabsSideMenu'
 import SubView from '../modules/Home/SubView'
+import UserProfile from '../modules/UserProfile/UserProfile'
 
 export default (store, Provider) =>  {
   Navigation.registerComponent('example.Login', () => Login, store, Provider)
@@ -12,5 +13,6 @@ export default (store, Provider) =>  {
   Navigation.registerComponent('example.SearchTab', () => SearchTab, store, Provider)
   Navigation.registerComponent('example.FlatListTab', () => FlatListTab, store, Provider)
   Navigation.registerComponent('example.BottomTabsSideMenu', () => BottomTabsSideMenu, store, Provider)
-  Navigation.registerComponent('example.SubView', () => SubView, store, Provider)  
+  Navigation.registerComponent('example.SubView', () => SubView, store, Provider)
+  Navigation.registerComponent('example.UserProfile', () => UserProfile, store, Provider)
 }

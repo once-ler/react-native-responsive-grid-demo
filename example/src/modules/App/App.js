@@ -86,7 +86,7 @@ export default class App {
             },
             {
               label: 'Search',
-              screen: 'example.SearchTab',
+              screen: 'example.UserProfile',
               icon: require('../../img/checkmark.png'),
               selectedIcon: require('../../img/checkmark.png'),
               title: 'Hey',

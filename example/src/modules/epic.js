@@ -4,7 +4,7 @@ import { combineEpics } from 'redux-observable'
 import {loginEpic, loginSuccessEpic} from './Login/LoginEpic'
 import {userEpic} from './User/UserEpic'
 import {listFetchEpic, listFetchReachedEndEpic} from './Home/FlatListEpic'
-import {userProfileEpic} from './UserProfileEpic'
+import {userProfileEpic} from './UserProfile/UserProfileEpic'
 
 export default combineEpics(
   loginEpic,

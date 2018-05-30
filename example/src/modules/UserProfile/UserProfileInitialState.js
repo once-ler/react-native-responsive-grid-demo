@@ -11,7 +11,7 @@ const Form = Record({
   disabled: false,
   error: null,
   isValid: false,
-  isFetching: false,
+  isLoading: false,
   fields: new (Record({
     username: '',
     usernameHasError: false,

@@ -1,4 +1,5 @@
 /* @flow */
+import React from 'react'
 import t from 'tcomb-form-native'
 import {connect} from 'react-redux'
 import withState from 'recompose/withState'
@@ -17,12 +18,7 @@ const {form: {Form}} = t
 
 const connectFunc = connect(
   state => ({
-    profile: state.profile,
-    global: {
-      currentUser: state.global.currentUser,
-      currentState: state.global.currentState,
-      showState: state.global.showState
-    }
+    userProfile: state.userProfile    
   }),
   dispatch => bindActionCreators(profileActions, dispatch)
 )
@@ -45,16 +41,16 @@ const enhanceWithProps = withProps(props => ({
       username: {
         label: 'Profile.username',
         maxLength: 12,
-        editable: !props.profile.form.isFetching,
-        hasError: props.profile.form.fields.usernameHasError,
-        error: props.profile.form.fields.usernameErrorMsg
+        editable: !props.userProfile.form.isLoading,
+        hasError: props.userProfile.form.fields.usernameHasError,
+        error: props.userProfile.form.fields.usernameErrorMsg
       },
       email: {
         label: 'Profile.email',
         keyboardType: 'email-address',
-        editable: !props.profile.form.isFetching,
-        hasError: props.profile.form.fields.emailHasError,
-        error: props.profile.form.fields.emailErrorMsg
+        editable: !props.userProfile.form.isLoading,
+        hasError: props.userProfile.form.fields.emailHasError,
+        error: props.userProfile.form.fields.emailErrorMsg
       }
     }
   }
@@ -71,12 +67,11 @@ const enhanceWithHandlers = withHandlers({
     // Should we update state for this?
     // setValue({value})
   },
-  onPress: ({updateProfile, profile, global}) => e => {
+  onPress: ({updateProfile, userProfile, global}) => e => {
     updateProfile(
-      profile.form.originalProfile.objectId,
-      profile.form.fields.username,
-      profile.form.fields.email,
-      global.currentUser
+      userProfile.form.originalProfile.objectId,
+      userProfile.form.fields.username,
+      userProfile.form.fields.email
     )
   }
 })
@@ -86,14 +81,13 @@ const Presentation = ({
   onPress,
   options,
   styles,
-  profile
+  userProfile
 }) => {
-  const { form: {fields} } = profile
+  const { form: {fields} } = userProfile
 
   return (
     <View style={styles.container}>
       <Form
-        ref="form"
         type={classOf}
         options={options}
         value={fields}
@@ -110,4 +104,4 @@ export default compose(
   enhanceWithDefaultProps,
   enhanceWithProps,
   enhanceWithHandlers
-)(Persentation)
+)(Presentation)
