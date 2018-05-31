@@ -8,7 +8,7 @@ import withProps from 'recompose/withProps'
 import withHandlers from 'recompose/withHandlers'
 import compose from 'recompose/compose'
 import {bindActionCreators} from 'redux'
-import {Text, View, TouchableHighlight} from 'react-native'
+import {Text, ScrollView, View, TouchableHighlight} from 'react-native'
 
 import {Person} from './UserProfileTypes'
 import * as profileActions from './UserProfileAction'
@@ -86,6 +86,7 @@ const Presentation = ({
   const { form: {fields} } = userProfile
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <Form
         type={classOf}
@@ -96,6 +97,7 @@ const Presentation = ({
         <Text style={styles.buttonText}>Save</Text>
       </TouchableHighlight>
     </View>
+    </ScrollView>
   )
 }
 
