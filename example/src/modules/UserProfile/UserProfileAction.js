@@ -47,6 +47,10 @@ export const fetchProfile = () => {
   // ???
 }
 
+export const updateProfile =() => {
+  // ???
+}
+
 export const fetchProfileFulfilled = (payload) => ({
   type: FETCH_PROFILE_SUCCESS,
   payload
