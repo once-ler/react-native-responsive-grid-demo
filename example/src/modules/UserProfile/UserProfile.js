@@ -23,10 +23,7 @@ const connectFunc = connect(
   dispatch => bindActionCreators(profileActions, dispatch)
 )
 
-const enhanceWithState = withState('formValues', 'setFormValues', {
-  username: '',
-  email: ''
-})
+const enhanceWithState = withState('formValues', 'setFormValues', {})
 
 const enhanceWithDefaultProps = defaultProps({
   classOf: Person,
@@ -41,16 +38,12 @@ const enhanceWithProps = withProps(props => ({
       username: {
         label: 'Profile.username',
         maxLength: 12,
-        editable: !props.userProfile.form.isLoading,
-        hasError: props.userProfile.form.fields.usernameHasError,
-        error: props.userProfile.form.fields.usernameErrorMsg
+        editable: !props.userProfile.form.isLoading
       },
       email: {
         label: 'Profile.email',
         keyboardType: 'email-address',
-        editable: !props.userProfile.form.isLoading,
-        hasError: props.userProfile.form.fields.emailHasError,
-        error: props.userProfile.form.fields.emailErrorMsg
+        editable: !props.userProfile.form.isLoading
       }
     }
   }
@@ -62,19 +55,15 @@ const enhanceWithHandlers = withHandlers(() => {
   
   return {
     onRef: () => (ref) => (form = ref),
-    onChange: ({onProfileFormFieldChange}) => ({value}) => {
-      if (value.username !== '') {
-        onProfileFormFieldChange('username', value.username)
-      }
-      if (value.email !== '') {
-        onProfileFormFieldChange('email', value.email)
-      }
-      // Should we update state for this?
-      // setValue({value})
+    onChange: ({onProfileFormFieldChange}) => (nextValue) => {
+      console.log(nextValue)
+      const value = form.getValue()
+      value && typeof value !== 'undefined' && onProfileFormFieldChange(value)
     },
     onPress: ({updateProfile, userProfile, global}) => e => {
-      // Validate
-      console.log(form)
+      const value = form.getValue()
+      value && typeof value !== 'undefined' && onProfileFormFieldChange(value)
+      return 1;
 
       updateProfile(
         userProfile.form.originalProfile.objectId,
@@ -95,6 +84,8 @@ const Presentation = ({
   userProfile
 }) => {
   const { form: {fields} } = userProfile
+
+  console.log(fields)
 
   return (
     <ScrollView>

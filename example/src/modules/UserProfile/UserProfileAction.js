@@ -1,6 +1,5 @@
 /* @flow */
-import UserProfileState from './UserProfileInitialState'
-const initialState = new UserProfileState()
+import initialState from './UserProfileInitialState'
 
 export const ON_PROFILE_FORM_FIELD_CHANGE = 'ON_PROFILE_FORM_FIELD_CHANGE'
 export const FETCH_PROFILE = 'FETCH_PROFILE'
@@ -28,14 +27,7 @@ export default (state = initialState, action) => {
     case UPDATE_PROFILE_REJECTED:
       return { ...state, payload: action.payload, error: action.error, isLoading: false }
     case ON_PROFILE_FORM_FIELD_CHANGE: {
-      const {field, value} = action.payload
-      let nextState = state
-          .setIn(['form', 'fields', field], value)
-          .setIn(['form', 'error'], null)
-      return formValidation(
-        fieldValidation(nextState, action),
-        action
-      )
+      return { ...state, fields: { ...action.payload }, isLoading: false }
     }
     default:
       return state
@@ -61,7 +53,7 @@ export const updateProfileFulfilled = (payload) => ({
   payload
 })
 
-export const onProfileFormFieldChange = (field, value) => ({
+export const onProfileFormFieldChange = (payload) => ({
   type: ON_PROFILE_FORM_FIELD_CHANGE,
-  payload: {field: field, value: value}
+  payload
 })

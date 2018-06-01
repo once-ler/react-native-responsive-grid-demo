@@ -24,8 +24,8 @@ export const Person = Class({
   accounts: List(KnownAccount),
   username: String,
   email: String,
-  name: String,
+  name: Option(String),
   surname: Option(String),
-  age: Number,
+  age: Option(Number),
   rememberMe: Boolean
 })
