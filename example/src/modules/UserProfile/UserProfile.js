@@ -56,28 +56,39 @@ const enhanceWithProps = withProps(props => ({
   }
 }))
 
-const enhanceWithHandlers = withHandlers({
-  onChange: ({onProfileFormFieldChange}) => ({value}) => {
-    if (value.username !== '') {
-      onProfileFormFieldChange('username', value.username)
+// https://stackoverflow.com/questions/45678526/how-do-you-add-refs-to-functional-components-using-withhandlers-in-recompose-and/45748180#45748180
+const enhanceWithHandlers = withHandlers(() => {
+  let form = null
+  
+  return {
+    onRef: () => (ref) => (form = ref),
+    onChange: ({onProfileFormFieldChange}) => ({value}) => {
+      if (value.username !== '') {
+        onProfileFormFieldChange('username', value.username)
+      }
+      if (value.email !== '') {
+        onProfileFormFieldChange('email', value.email)
+      }
+      // Should we update state for this?
+      // setValue({value})
+    },
+    onPress: ({updateProfile, userProfile, global}) => e => {
+      // Validate
+      console.log(form)
+
+      updateProfile(
+        userProfile.form.originalProfile.objectId,
+        userProfile.form.fields.username,
+        userProfile.form.fields.email
+      )
     }
-    if (value.email !== '') {
-      onProfileFormFieldChange('email', value.email)
-    }
-    // Should we update state for this?
-    // setValue({value})
-  },
-  onPress: ({updateProfile, userProfile, global}) => e => {
-    updateProfile(
-      userProfile.form.originalProfile.objectId,
-      userProfile.form.fields.username,
-      userProfile.form.fields.email
-    )
   }
 })
 
 const Presentation = ({
   classOf,
+  onRef,
+  onChange,
   onPress,
   options,
   styles,
@@ -89,9 +100,11 @@ const Presentation = ({
     <ScrollView>
     <View style={styles.container}>
       <Form
+        ref={onRef}
         type={classOf}
         options={options}
         value={fields}
+        onChange={onChange}
       />
       <TouchableHighlight style={styles.button} onPress={onPress} underlayColor='#99d9f4'>
         <Text style={styles.buttonText}>Save</Text>
