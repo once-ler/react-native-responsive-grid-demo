@@ -82,7 +82,7 @@ const Presentation = ({
   console.log(userProfile)
 
   return (
-    <ScrollView keyboardShouldPersistTaps='always' keyboardDismissMode='on-drag'>
+    <ScrollView keyboardShouldPersistTaps={'handled'}>
     <View style={styles.container}>
       <Form
         ref={onRef}
