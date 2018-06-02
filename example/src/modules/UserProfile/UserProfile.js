@@ -56,20 +56,14 @@ const enhanceWithHandlers = withHandlers(() => {
   return {
     onRef: () => (ref) => (form = ref),
     onChange: ({onProfileFormFieldChange}) => (nextValue) => {
-      console.log(nextValue)
       const value = form.getValue()
-      value && typeof value !== 'undefined' && onProfileFormFieldChange(value)
+      value && onProfileFormFieldChange(value)
     },
     onPress: ({updateProfile, userProfile, global}) => e => {
-      const value = form.getValue()
-      value && typeof value !== 'undefined' && onProfileFormFieldChange(value)
-      return 1;
-
-      updateProfile(
-        userProfile.form.originalProfile.objectId,
-        userProfile.form.fields.username,
-        userProfile.form.fields.email
-      )
+      const { form: { originalProfile, fields } } = userProfile
+      const nextState = { ...originalProfile, ...fields }
+      // updateProfile should reset isValid to false.
+      updateProfile(nextState)
     }
   }
 })
@@ -83,9 +77,9 @@ const Presentation = ({
   styles,
   userProfile
 }) => {
-  const { form: {fields} } = userProfile
+  const { form: {fields, isValid} } = userProfile
 
-  console.log(fields)
+  console.log(userProfile)
 
   return (
     <ScrollView>
@@ -97,9 +91,11 @@ const Presentation = ({
         value={fields}
         onChange={onChange}
       />
+      {isValid &&
       <TouchableHighlight style={styles.button} onPress={onPress} underlayColor='#99d9f4'>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableHighlight>
+      }
     </View>
     </ScrollView>
   )

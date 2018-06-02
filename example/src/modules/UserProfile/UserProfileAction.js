@@ -27,7 +27,8 @@ export default (state = initialState, action) => {
     case UPDATE_PROFILE_REJECTED:
       return { ...state, payload: action.payload, error: action.error, isLoading: false }
     case ON_PROFILE_FORM_FIELD_CHANGE: {
-      return { ...state, fields: { ...action.payload }, isLoading: false }
+      const nextForm = { form: { fields: { ...action.payload }, isValid: true, isLoading: false } }
+      return { ...state, ...nextForm }
     }
     default:
       return state
