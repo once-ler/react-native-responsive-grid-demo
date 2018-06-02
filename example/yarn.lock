@@ -3860,7 +3860,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -3968,6 +3968,12 @@ react-native-responsive-grid@^0.40.7:
   resolved "https://registry.yarnpkg.com/react-native-responsive-grid/-/react-native-responsive-grid-0.40.7.tgz#267c59b381eabcd73820a80bf7d27f9ec1121d3f"
   dependencies:
     opencollective "^1.0.3"
+
+react-native-tableview-simple@^0.17.5:
+  version "0.17.5"
+  resolved "https://registry.yarnpkg.com/react-native-tableview-simple/-/react-native-tableview-simple-0.17.5.tgz#07b3ec325d053e18d72e3d28836f037f96e6cfda"
+  dependencies:
+    prop-types "^15.6.1"
 
 react-native-vector-icons@^4.5.0:
   version "4.5.0"
