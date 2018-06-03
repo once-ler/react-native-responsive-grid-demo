@@ -1,11 +1,51 @@
 /* @flow */
 export default {
   form: {
-    originalCaPatient: {},
+    original: {},
     disabled: false,
     error: null,
     isValid: false,
     isLoading: false,
-    fields: {}
+    fields: {},
+    addresses: {
+      original: [],
+      disabled: false,
+      error: null,
+      isValid: false,
+      isLoading: false,
+      fields: []
+    },
+    emergencyContacts: {
+      original: [],
+      disabled: false,
+      error: null,
+      isValid: false,
+      isLoading: false,
+      fields: []
+    },
+    nameComponents: {
+      original: [],
+      disabled: false,
+      error: null,
+      isValid: false,
+      isLoading: false,
+      fields: []
+    },
+    employmentInformation: {
+      original: {},
+      disabled: false,
+      error: null,
+      isValid: false,
+      isLoading: false,
+      fields: {}
+    },
+    careTeam: {
+      original: [],
+      disabled: false,
+      error: null,
+      isValid: false,
+      isLoading: false,
+      fields: []
+    }
   }
 }

@@ -68,7 +68,7 @@ export const CaPatientEmploymentInformation = Class({
 })
  
 export const CaPatient = Class({
-  addresses: List(CaPatientAddres(),
+  addresses: List(CaPatientAddress(),
   aliases: List(String),
   careTeam: List(CaPatientCareTeamMember),
   confidentialName: Option(String),
