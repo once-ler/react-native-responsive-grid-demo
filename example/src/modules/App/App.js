@@ -77,7 +77,7 @@ export default class App {
           tabs: [
             {
               label: 'Home',
-              screen: 'example.HomeTab',
+              screen: 'example.CaTableView',
               icon: require('../../img/checkmark.png'),
               selectedIcon: require('../../img/checkmark.png'),
               title: 'Hey',

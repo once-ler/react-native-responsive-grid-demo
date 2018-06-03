@@ -1,6 +1,6 @@
 {
   "name": "react-native-responsive-grid-demo",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -12,7 +12,7 @@
     "react": "^16.2.0",
     "react-native": "0.54.0",
     "react-native-navigation": "^1.1.412",
-    "react-native-responsive-grid": "^0.40.7",
+    "react-native-responsive-grid": "^0.41.992",
     "react-native-tableview-simple": "^0.17.5",
     "react-native-vector-icons": "^4.5.0",
     "react-redux": "^5.0.7",

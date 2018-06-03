@@ -1,5 +1,17 @@
-import React, { Component } from 'react'
+import React from 'react'
+import {connect} from 'react-redux'
+import compose from 'recompose/compose'
+import {bindActionCreators} from 'redux'
 import { Cell, Section, TableView } from 'react-native-tableview-simple'
+import {ScrollView, StyleSheet, TextInput} from 'react-native'
+import * as caPatientActions from './CaPatientAction'
+
+const connectFunc = connect(
+  state => ({
+    caPatient: state.caPatient    
+  }),
+  dispatch => bindActionCreators(caPatientActions, dispatch)
+)
 
 const Presentation = () => (
   <ScrollView contentContainerStyle={styles.stage}>
@@ -90,3 +102,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 })
+
+export default compose(
+  connectFunc,
+)(Presentation)

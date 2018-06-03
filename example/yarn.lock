@@ -3963,9 +3963,9 @@ react-native-navigation@^1.1.412:
   dependencies:
     lodash "4.x.x"
 
-react-native-responsive-grid@^0.40.7:
-  version "0.40.7"
-  resolved "https://registry.yarnpkg.com/react-native-responsive-grid/-/react-native-responsive-grid-0.40.7.tgz#267c59b381eabcd73820a80bf7d27f9ec1121d3f"
+react-native-responsive-grid@^0.41.992:
+  version "0.41.992"
+  resolved "https://registry.yarnpkg.com/react-native-responsive-grid/-/react-native-responsive-grid-0.41.992.tgz#74f485cdf9a88df78fb12f94ede0924b561b8ec5"
   dependencies:
     opencollective "^1.0.3"
 

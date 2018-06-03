@@ -23,6 +23,7 @@ import {
 } from 'rxjs/operators'
 import { ofType } from 'redux-observable'
 
+/*
 export const loginEpic = action$ => 
   action$.pipe(
     ofType(LOGIN_USER),
@@ -37,6 +38,13 @@ export const loginEpic = action$ =>
         }))
       )
     )
+  )
+*/
+
+export const loginEpic = action$ =>
+  action$.pipe(
+    ofType(LOGIN_USER),
+    mergeMap(action => of(loginUserFulfilled()))
   )
 
 // Switch to tab base screen after successful login.

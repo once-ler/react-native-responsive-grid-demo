@@ -11,10 +11,16 @@ import compose from 'recompose/compose'
 import {bindActionCreators} from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-import { Row, Column as Col, Grid} from 'react-native-responsive-grid'
+import { Row, Column as Col, Grid, ScreenInfo, setBreakPoints} from 'react-native-responsive-grid'
 
 import styles from './Style'
 import * as listActions from './FlatListAction'
+
+setBreakPoints({
+  SMALL_Width: 414,
+  MEDIUM_Width: 600,
+  LARGE_Width: 1024
+})
 
 class FlatListTab extends Component {
   constructor(props) {
@@ -31,7 +37,9 @@ class FlatListTab extends Component {
   }
 
   render() {
-    console.log(this.props)
+    // console.log(this.props)
+
+    console.log(ScreenInfo())
 
     const onPress = () => {
       this.props.navigator.push({
@@ -66,15 +74,20 @@ class FlatListTab extends Component {
                           </Col>
                         </Row>
                       </Col>                      
-                      <Col size={25} smSize={100}>
-                        <Text style={{fontSize: 12, color: '#0a0a0a'}}>{item.firstName}</Text>
+                      
+                      <Col size={60} smSize={100}>
+                      <Row>
+                        <Col size={25} smSize={100}>
+                          <Text style={{fontSize: 12, color: '#0a0a0a'}}>{item.firstName}</Text>
+                        </Col>
+                        <Col size={25} smSize={100}>
+                          <Text style={{fontSize: 12, color: '#0a0a0a'}}>{item.lastName}</Text>
+                        </Col>
+                        <Col size={25} smSize={100}>
+                          <Text style={{fontSize: 12, color: '#0a0a0a'}}>{item.date}</Text>
+                        </Col> 
+                      </Row>
                       </Col>
-                      <Col size={25} smSize={100}>
-                        <Text style={{fontSize: 12, color: '#0a0a0a'}}>{item.lastName}</Text>
-                      </Col>
-                      <Col size={25} smSize={100}>
-                        <Text style={{fontSize: 12, color: '#0a0a0a'}}>{item.date}</Text>
-                      </Col> 
                     </Row>    
                   </Col>
                   <Col size={8} offset={-6} hAlign='right'>
