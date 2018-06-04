@@ -7,6 +7,7 @@ import withHandlers from 'recompose/withHandlers'
 import compose from 'recompose/compose'
 import {bindActionCreators} from 'redux'
 import cloneDeep from 'lodash.clonedeep'
+import { Row, Column as Col, Grid, ScreenInfo, setBreakPoints} from 'react-native-responsive-grid'
 import {Text, ScrollView, View, TouchableHighlight} from 'react-native'
 
 import {CaPatientNameComponents} from './CaPatientTypes'
@@ -18,13 +19,30 @@ const {list: List, form: {Form}} = t
 const stylesheet = cloneDeep(Form.stylesheet);
 
 // Horizontal
-stylesheet.fieldset = {
-  flexDirection: 'row'
+const flexLayout = (locals) => {
+  return <Grid>{() => {
+    const screenInfo = ScreenInfo()
+    const textWidth3 = Math.ceil(screenInfo.width / 4)
+    return (
+    <Row>
+      <Col size={90} offset={6} >
+        <Row>
+          <Col size={40} smSize={100}>
+            <View style={{fontSize: 12, color: '#0a0a0a'}}>{locals.inputs.firstName}</View>
+          </Col>
+          <Col size={20} smSize={100}>
+            <View style={{fontSize: 12, color: '#0a0a0a'}}>{locals.inputs.middleName}</View>
+          </Col>
+          <Col size={30} smSize={100}>
+            <View style={{fontSize: 12, color: '#0a0a0a'}}>{locals.inputs.lastName}</View>
+          </Col> 
+        </Row>
+      </Col>
+    </Row>)
+  }
+  }
+  </Grid>
 }
-stylesheet.formGroup.normal.flex = 1
-stylesheet.formGroup.error.flex = 1
-stylesheet.textbox.normal.flex = 3
-stylesheet.textbox.error.flex = 3
 
 const connectFunc = connect(
   state => ({
@@ -36,7 +54,7 @@ const connectFunc = connect(
 
 const enhanceWithDefaultProps = defaultProps({
   classOf: CaPatientNameComponents,
-  options: { stylesheet },
+  options: {stylesheet},
   styles: styles
 })
 
@@ -44,17 +62,21 @@ const enhanceWithProps = withProps(({options, caPatient}) => {
   const { stylesheet } = options
   return {    
     options: {
+      template: flexLayout,
       stylesheet,
       auto: 'placeholders',
       fields: {
         firstName: {
           label: 'First Name',
+          editable: !caPatient.form.isLoading
+        },
+        middleName: {
+          label: 'MI',
           maxLength: 12,
           editable: !caPatient.form.isLoading
         },
         lastName: {
           label: 'Last Name',
-          keyboardType: 'email-address',
           editable: !caPatient.form.isLoading
         }
       }
@@ -67,7 +89,7 @@ const enhanceWithHandlers = withHandlers(() => {
   
   return {
     onRef: () => (ref) => (form = ref),
-    onChange: ({onProfileFormFieldChange}) => (nextValue) => {
+    onChange: ({onCaPatientFormFieldChange}) => (nextValue) => {
       const value = form.getValue()
       value && onCaPatientFormFieldChange('nameComponents', value)
     },
