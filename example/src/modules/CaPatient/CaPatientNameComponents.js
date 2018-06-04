@@ -10,13 +10,15 @@ import cloneDeep from 'lodash.clonedeep'
 import { Row, Column as Col, Grid, ScreenInfo, setBreakPoints} from 'react-native-responsive-grid'
 import {Text, ScrollView, View, TouchableHighlight} from 'react-native'
 
-import {CaPatientNameComponents} from './CaPatientTypes'
+import {CaPatientNameComponentsList} from './CaPatientTypes'
 import * as profileActions from './CaPatientAction'
 import styles from './CaPatientStyles'
 
 const {list: List, form: {Form}} = t
 
-const stylesheet = cloneDeep(Form.stylesheet);
+const stylesheet = cloneDeep(Form.stylesheet)
+stylesheet.button.alignSelf = 'flex-end'
+stylesheet.button.flex = 0
 
 // Horizontal
 const flexLayout = (locals) => {
@@ -53,7 +55,7 @@ const connectFunc = connect(
 )
 
 const enhanceWithDefaultProps = defaultProps({
-  classOf: CaPatientNameComponents,
+  classOf: CaPatientNameComponentsList,
   options: {stylesheet},
   styles: styles
 })
@@ -62,22 +64,30 @@ const enhanceWithProps = withProps(({options, caPatient}) => {
   const { stylesheet } = options
   return {    
     options: {
-      template: flexLayout,
       stylesheet,
-      auto: 'placeholders',
       fields: {
-        firstName: {
-          label: 'First Name',
-          editable: !caPatient.form.isLoading
-        },
-        middleName: {
-          label: 'MI',
-          maxLength: 12,
-          editable: !caPatient.form.isLoading
-        },
-        lastName: {
-          label: 'Last Name',
-          editable: !caPatient.form.isLoading
+        list: {
+          disableOrder: true,
+          label: 'Name Components',
+          item: {
+            template: flexLayout,
+            xauto: 'placeholders',
+            fields: {
+              firstName: {
+                label: 'First Name',
+                editable: !caPatient.form.isLoading
+              },
+              middleName: {
+                label: 'MI',
+                maxLength: 12,
+                editable: !caPatient.form.isLoading
+              },
+              lastName: {
+                label: 'Last Name',
+                editable: !caPatient.form.isLoading
+              }
+            }
+          }
         }
       }
     }

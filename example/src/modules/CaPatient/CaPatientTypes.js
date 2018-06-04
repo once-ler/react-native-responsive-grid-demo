@@ -33,6 +33,10 @@ export const CaPatientNameComponents = Class({
   suffix: Option(String),
   title: Option(String)
 })
+
+export const CaPatientNameComponentsList = Class({
+  list: List(CaPatientNameComponents)
+})
  
 export const CaPatientAddress = Class({
   city: String,

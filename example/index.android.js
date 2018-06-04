@@ -5,5 +5,7 @@ YellowBox.ignoreWarnings([
   'Warning: componentWillReceiveProps is deprecated',
 ])
 
+console.disableYellowBox = true
+
 import App from './src/modules/App/App'
 const app = new App()

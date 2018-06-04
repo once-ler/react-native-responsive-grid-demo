@@ -5,6 +5,8 @@ YellowBox.ignoreWarnings([
   'Warning: componentWillReceiveProps is deprecated',
 ])
 
+console.disableYellowBox = true
+
 import { AppRegistry } from 'react-native'
 import App from './src/modules/App/App'
 console.log('ios')
