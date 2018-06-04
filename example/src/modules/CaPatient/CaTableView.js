@@ -13,7 +13,7 @@ const connectFunc = connect(
   dispatch => bindActionCreators(caPatientActions, dispatch)
 )
 
-const Presentation = () => (
+const Presentation = ({navigator}) => (
   <ScrollView contentContainerStyle={styles.stage}>
     <TableView>
     <Section header="Name Components">
@@ -21,7 +21,11 @@ const Presentation = () => (
           cellStyle="Basic"
           title="Name Components"
           accessory="DisclosureIndicator"
-          onPress={() => console.log('Heyho!')}
+          onPress={
+            () => navigator.push({
+              screen: 'example.CaPatientNameComponents'
+            })
+          }
           contentContainerStyle={{ flex: 1 }}
           cellContentView={
             <TextInput

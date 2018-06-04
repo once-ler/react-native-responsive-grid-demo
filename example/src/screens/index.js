@@ -7,6 +7,7 @@ import BottomTabsSideMenu from '../modules/Home/BottomTabsSideMenu'
 import SubView from '../modules/Home/SubView'
 import UserProfile from '../modules/UserProfile/UserProfile'
 import CaTableView from '../modules/CaPatient/CaTableView'
+import CaPatientNameComponents from '../modules/CaPatient/CaPatientNameComponents'
 
 export default (store, Provider) =>  {
   Navigation.registerComponent('example.Login', () => Login, store, Provider)
@@ -17,4 +18,5 @@ export default (store, Provider) =>  {
   Navigation.registerComponent('example.SubView', () => SubView, store, Provider)
   Navigation.registerComponent('example.UserProfile', () => UserProfile, store, Provider)
   Navigation.registerComponent('example.CaTableView', () => CaTableView, store, Provider)
+  Navigation.registerComponent('example.CaPatientNameComponents', () => CaPatientNameComponents, store, Provider)
 }

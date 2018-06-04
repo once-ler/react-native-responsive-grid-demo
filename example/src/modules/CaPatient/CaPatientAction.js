@@ -27,8 +27,17 @@ export default (state = initialState, action) => {
     case UPDATE_CA_PATIENT_REJECTED:
       return { ...state, payload: action.payload, error: action.error, isLoading: false }
     case ON_CA_PATIENT_FORM_FIELD_CHANGE: {
-      const nextForm = { form: { fields: { ...action.payload }, isValid: true, isLoading: false } }
-      return { ...state, ...nextForm }
+      // const nextForm = { form: { fields: { ...action.payload }, isValid: true, isLoading: false } }
+      const nextSubcomponent = { fields: { ...action.payload }, isValid: true, isLoading: false }
+
+      switch (action.subComponent) {
+        case 'nameComponents':
+        const nextNameComponents = { nameComponents: nextSubcomponent }
+        const form = { ...state.form, ...nextNameComponents }
+        return { form }
+        default:
+          return state
+      }      
     }
     default:
       return state
@@ -54,7 +63,8 @@ export const updateCaPatientFulfilled = (payload) => ({
   payload
 })
 
-export const onCaPatientFormFieldChange = (payload) => ({
+export const onCaPatientFormFieldChange = (subComponent, payload) => ({
   type: ON_CA_PATIENT_FORM_FIELD_CHANGE,
+  subComponent,
   payload
 })
