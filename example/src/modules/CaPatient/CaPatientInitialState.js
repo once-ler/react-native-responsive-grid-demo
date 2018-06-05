@@ -29,7 +29,7 @@ export default {
       error: null,
       isValid: false,
       isLoading: false,
-      fields: []
+      fields: [{firstName: "Jimmy"}, {firstName: "Harold"}]
     },
     employmentInformation: {
       original: {},

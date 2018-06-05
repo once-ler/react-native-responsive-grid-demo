@@ -10,7 +10,7 @@ import cloneDeep from 'lodash.clonedeep'
 import { Row, Column as Col, Grid, ScreenInfo, setBreakPoints} from 'react-native-responsive-grid'
 import {Text, ScrollView, View, TouchableHighlight} from 'react-native'
 
-import {CaPatientNameComponentsList} from './CaPatientTypes'
+import {CaPatientNameComponents} from './CaPatientTypes'
 import * as profileActions from './CaPatientAction'
 import styles from './CaPatientStyles'
 
@@ -23,8 +23,6 @@ stylesheet.button.flex = 0
 // Horizontal
 const flexLayout = (locals) => {
   return <Grid>{() => {
-    const screenInfo = ScreenInfo()
-    const textWidth3 = Math.ceil(screenInfo.width / 4)
     return (
     <Row>
       <Col size={90} offset={6} >
@@ -55,12 +53,39 @@ const connectFunc = connect(
 )
 
 const enhanceWithDefaultProps = defaultProps({
-  classOf: CaPatientNameComponentsList,
+  classOf: CaPatientNameComponents,
   options: {stylesheet},
   styles: styles
 })
 
 const enhanceWithProps = withProps(({options, caPatient}) => {
+  const { stylesheet } = options
+
+  return {
+    options: {
+      stylesheet,
+      template: flexLayout,
+      xauto: 'placeholders',
+      fields: {
+        firstName: {
+          label: 'First Name',
+          editable: !caPatient.form.isLoading
+        },
+        middleName: {
+          label: 'MI',
+          maxLength: 12,
+          editable: !caPatient.form.isLoading
+        },
+        lastName: {
+          label: 'Last Name',
+          editable: !caPatient.form.isLoading
+        }
+      }
+    }
+  }
+})
+
+const enhanceWithProps2 = withProps(({options, caPatient}) => {
   const { stylesheet } = options
   return {    
     options: {
