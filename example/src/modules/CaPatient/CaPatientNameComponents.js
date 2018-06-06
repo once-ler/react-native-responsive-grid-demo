@@ -2,6 +2,8 @@ import React from 'react'
 import t from 'tcomb-form-native'
 import {connect} from 'react-redux'
 import defaultProps from 'recompose/defaultProps'
+import lifecycle from 'recompose/lifecycle'
+import withState from 'recompose/withState'
 import withProps from 'recompose/withProps'
 import withHandlers from 'recompose/withHandlers'
 import compose from 'recompose/compose'
@@ -28,13 +30,13 @@ const flexLayout = (locals) => {
       <Col size={90} offset={6} >
         <Row>
           <Col size={40} smSize={100}>
-            <View style={{fontSize: 12, color: '#0a0a0a'}}>{locals.inputs.firstName}</View>
+            <View>{locals.inputs.firstName}</View>
           </Col>
           <Col size={20} smSize={100}>
-            <View style={{fontSize: 12, color: '#0a0a0a'}}>{locals.inputs.middleName}</View>
+            <View>{locals.inputs.middleName}</View>
           </Col>
           <Col size={30} smSize={100}>
-            <View style={{fontSize: 12, color: '#0a0a0a'}}>{locals.inputs.lastName}</View>
+            <View>{locals.inputs.lastName}</View>
           </Col> 
         </Row>
       </Col>
@@ -51,6 +53,17 @@ const connectFunc = connect(
   }),
   dispatch => bindActionCreators(profileActions, dispatch)
 )
+
+const enhanceWithFormState = withState('formValues', 'setFormValues', {})
+
+const enhanceWithFormIsValidState = withState('isValid', 'setFormIsValid', false)
+
+const enhanceWithLifecycle = lifecycle({
+  componentDidMount() {
+    const {setFormValues, passedFields} = this.props
+    setFormValues(passedFields)
+  }
+})
 
 const enhanceWithDefaultProps = defaultProps({
   classOf: CaPatientNameComponents,
@@ -85,54 +98,24 @@ const enhanceWithProps = withProps(({options, caPatient}) => {
   }
 })
 
-const enhanceWithProps2 = withProps(({options, caPatient}) => {
-  const { stylesheet } = options
-  return {    
-    options: {
-      stylesheet,
-      fields: {
-        list: {
-          disableOrder: true,
-          label: 'Name Components',
-          item: {
-            template: flexLayout,
-            xauto: 'placeholders',
-            fields: {
-              firstName: {
-                label: 'First Name',
-                editable: !caPatient.form.isLoading
-              },
-              middleName: {
-                label: 'MI',
-                maxLength: 12,
-                editable: !caPatient.form.isLoading
-              },
-              lastName: {
-                label: 'Last Name',
-                editable: !caPatient.form.isLoading
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-})
-
 const enhanceWithHandlers = withHandlers(() => {
   let form = null
   
   return {
     onRef: () => (ref) => (form = ref),
-    onChange: ({onCaPatientFormFieldChange}) => (nextValue) => {
+    onChange: ({setFormValues, setFormIsValid, formValues}) => (nextValue) => {
       const value = form.getValue()
-      value && onCaPatientFormFieldChange('nameComponents', value)
+      if (value) {
+        // Set pseudo id from passedFields.
+        setFormValues({...value, id: formValues.id})
+        setFormIsValid(true)
+      } else {
+        setFormIsValid(false)
+      }
     },
-    onPress: ({updateCaPatient, caPatient, global}) => e => {
-      const { form: { original, fields } } = caPatient
-      const nextState = { ...original, ...fields }
-      // updateCaPatient should reset isValid to false.
-      updateCaPatient(nextState)
+    onPress: ({formValues, onCaPatientFormFieldChange}) => e => {
+      onCaPatientFormFieldChange('nameComponents', formValues)
+      // Go back to previous page.
     }
   }
 })
@@ -144,11 +127,15 @@ const Presentation = ({
   onPress,
   options,
   styles,
-  caPatient
+  caPatient,
+  passedFields,
+  formValues,
+  isValid
 }) => {
-  const { form: {fields, isValid} } = caPatient
+  // const { form: {fields, isValid} } = caPatient
+  // const {firstName} = passedFields
 
-  console.log(options)
+  console.log(caPatient)
 
   return (
     <ScrollView keyboardShouldPersistTaps={'handled'}>
@@ -157,7 +144,7 @@ const Presentation = ({
         ref={onRef}
         type={classOf}
         options={options}
-        value={fields}
+        value={formValues}
         onChange={onChange}
       />
       {isValid &&
@@ -172,6 +159,9 @@ const Presentation = ({
 
 export default compose(
   connectFunc,
+  enhanceWithFormState,
+  enhanceWithFormIsValidState,
+  enhanceWithLifecycle,
   enhanceWithDefaultProps,
   enhanceWithProps,
   enhanceWithHandlers

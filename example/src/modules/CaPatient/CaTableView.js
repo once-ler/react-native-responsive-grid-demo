@@ -20,19 +20,21 @@ const Presentation = ({navigator, caPatient}) => {
       <TableView>
       <Section header="Name Components">
           {
-            caPatient.form.nameComponents.fields.map(a => (
+            caPatient.form.nameComponents.fields.map((a, id) => (
               <Cell
+                key={Math.random()}
                 cellStyle="Basic"
                 title={a.firstName}
                 accessory="DisclosureIndicator"
                 onPress={
                   () => navigator.push({
-                    screen: 'example.CaPatientNameComponents'
+                    screen: 'example.CaPatientNameComponents',
+                    passProps: {passedFields: {...a, id}}
                   })
                 }
                 contentContainerStyle={{ flex: 1 }}
                 cellContentView={
-                  <Text style={{ fontSize: 16, flex: 1 }}>{a.firstName}</Text>
+                  <Text style={{ fontSize: 16, flex: 1 }}>{a.firstName} {a.lastName}</Text>
                 }
               />
             ))          

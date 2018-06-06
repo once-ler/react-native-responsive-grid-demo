@@ -27,14 +27,23 @@ export default (state = initialState, action) => {
     case UPDATE_CA_PATIENT_REJECTED:
       return { ...state, payload: action.payload, error: action.error, isLoading: false }
     case ON_CA_PATIENT_FORM_FIELD_CHANGE: {
-      // const nextForm = { form: { fields: { ...action.payload }, isValid: true, isLoading: false } }
-      const nextSubcomponent = { fields: { ...action.payload }, isValid: true, isLoading: false }
-
+      // const nextSubcomponent = { fields: { ...action.payload }, isValid: true, isLoading: false }
+      // const nextNameComponents = { nameComponents: nextSubcomponent }
+      // const form = { ...state.form, ...nextNameComponents }
+        
       switch (action.subComponent) {
         case 'nameComponents':
-        const nextNameComponents = { nameComponents: nextSubcomponent }
-        const form = { ...state.form, ...nextNameComponents }
-        return { form }
+          const fields = state.form.nameComponents.fields.map((item, id) => {
+            if (id === action.payload.id) {
+              return {...item, ...action.payload}
+            }
+            return item
+          })
+
+          const nameComponents = { ...state.form.nameComponents, fields }
+          const form = {...state.form, nameComponents}
+          
+          return { form }
         default:
           return state
       }      
