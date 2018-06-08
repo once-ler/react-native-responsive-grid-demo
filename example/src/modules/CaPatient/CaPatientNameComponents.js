@@ -1,12 +1,14 @@
 /* @flow */
 import React from 'react'
+import setStatic from 'recompose/setStatic'
 import withProps from 'recompose/withProps'
 import compose from 'recompose/compose'
 import { Row, Column as Col, Grid} from 'react-native-responsive-grid'
-import {View} from 'react-native'
+import {View, Platform} from 'react-native'
 import {CaPatientNameComponents} from './CaPatientTypes'
 import connectFunc from './ConnectFunc'
 import Form from '../../components/Form/Form'
+import {doneButton} from './CaPatientButtons'
 
 const flexLayout = (locals) => {
   return <Grid>{() => {
@@ -31,6 +33,12 @@ const flexLayout = (locals) => {
   </Grid>
 }
 
+const enhanceWithStatic = setStatic(
+  'navigatorButtons', {
+    rightButtons: [doneButton]
+  }
+)
+
 const enhanceWithProps = withProps(({caPatient}) => {
   const { form: { isLoading } } = caPatient
 
@@ -40,6 +48,14 @@ const enhanceWithProps = withProps(({caPatient}) => {
       onCaPatientFormFieldChange('nameComponents', formValues)
       // Go back to previous page.
       navigator.pop({animated: true, animationType: 'fade'})
+    },
+    onNavigatorEvent: () => event => {
+      switch (event.id) {
+        case 'done':
+          return console.log('NavBar', 'Done button pressed')
+        default:
+          return
+      }
     },
     options: {
       template: flexLayout,
@@ -64,6 +80,7 @@ const enhanceWithProps = withProps(({caPatient}) => {
 })
 
 export default compose(
+  enhanceWithStatic,
   connectFunc,
-  enhanceWithProps  
+  enhanceWithProps
 )(Form)

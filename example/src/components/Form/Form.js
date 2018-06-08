@@ -23,12 +23,14 @@ const enhanceWithFormIsValidState = withState('isValid', 'setFormIsValid', false
 
 // Users must define classOf, onSubmit, passedValues
 const enhanceWithShouldUpdate = shouldUpdate((props, nextProps) =>
-  props.classOf && props.onSubmit && props.passedValues)
+  !!props.classOf && !!props.onSubmit && !!props.passedValues)
 
 const enhanceWithLifecycle = lifecycle({
   componentDidMount() {
     const {setFormValues, passedFields} = this.props
     setFormValues(passedFields)
+
+    this.props.navigator.setOnNavigatorEvent(this.props.onNavigatorEvent.bind(this.props))
   }
 })
 
@@ -38,7 +40,7 @@ const enhanceWithDefaultProps = defaultProps({
   styles: styles
 })
 
-const enhanceWithHandlers = withHandlers(({onSubmit}) => {
+const enhanceWithHandlers = withHandlers(({onSubmit, onNavigatorEvent}) => {
   let form = null
   
   return {
@@ -53,7 +55,8 @@ const enhanceWithHandlers = withHandlers(({onSubmit}) => {
         setFormIsValid(false)
       }
     },
-    onSubmit
+    onSubmit,
+    onNavigatorEvent
   }
 })
 
@@ -93,7 +96,7 @@ export default compose(
   enhanceWithShouldUpdate,
   enhanceWithFormState,
   enhanceWithFormIsValidState,
-  enhanceWithLifecycle,
   enhanceWithDefaultProps,
-  enhanceWithHandlers  
+  enhanceWithHandlers,
+  enhanceWithLifecycle  
 )(Presentation)
