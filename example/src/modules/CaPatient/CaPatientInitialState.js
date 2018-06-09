@@ -6,6 +6,7 @@ export default {
     error: null,
     isValid: false,
     isLoading: false,
+    isDirty: false,
     fields: {},
     addresses: {
       original: [],

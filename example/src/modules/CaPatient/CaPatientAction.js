@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
           })
 
           const nameComponents = { ...state.form.nameComponents, fields }
-          const form = {...state.form, nameComponents}
+          const form = {...state.form, nameComponents, isDirty: true}
           
           return { form }
         default:

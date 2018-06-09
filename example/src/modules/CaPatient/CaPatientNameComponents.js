@@ -8,7 +8,7 @@ import {View, Platform} from 'react-native'
 import {CaPatientNameComponents} from './CaPatientTypes'
 import connectFunc from './ConnectFunc'
 import Form from '../../components/Form/Form'
-import {doneButton} from './CaPatientButtons'
+import {doneButton, doneButtonDisabled} from './CaPatientButtons'
 
 const flexLayout = (locals) => {
   return <Grid>{() => {
@@ -47,15 +47,7 @@ const enhanceWithProps = withProps(({caPatient}) => {
     onSubmit: ({formValues, onCaPatientFormFieldChange, navigator}) => e => {
       onCaPatientFormFieldChange('nameComponents', formValues)
       // Go back to previous page.
-      navigator.pop({animated: true, animationType: 'fade'})
-    },
-    onNavigatorEvent: () => event => {
-      switch (event.id) {
-        case 'done':
-          return console.log('NavBar', 'Done button pressed')
-        default:
-          return
-      }
+      // navigator.pop({animated: true, animationType: 'fade'})
     },
     options: {
       template: flexLayout,
@@ -80,7 +72,7 @@ const enhanceWithProps = withProps(({caPatient}) => {
 })
 
 export default compose(
-  enhanceWithStatic,
+  // enhanceWithStatic,
   connectFunc,
   enhanceWithProps
 )(Form)

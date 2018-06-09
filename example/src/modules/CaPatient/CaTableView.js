@@ -1,10 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import compose from 'recompose/compose'
+import lifecycle from 'recompose/lifecycle'
+import withHandlers from 'recompose/withHandlers'
 import {bindActionCreators} from 'redux'
 import { Cell, Section, TableView } from 'react-native-tableview-simple'
 import {ScrollView, StyleSheet, TextInput, Text} from 'react-native'
 import * as caPatientActions from './CaPatientAction'
+import {saveButton, saveButtonDisabled} from '../../components/Form/Buttons'
 
 const connectFunc = connect(
   state => ({
@@ -13,8 +16,36 @@ const connectFunc = connect(
   dispatch => bindActionCreators(caPatientActions, dispatch)
 )
 
-const Presentation = ({navigator, caPatient}) => {
+const enhanceWithLifecycle = lifecycle({
+  componentDidMount() {
+    this.props.navigator.setOnNavigatorEvent(this.props.onNavigatorEvent.bind(this.props))
+  }
+})
 
+const enhanceWithHandlers = withHandlers({
+  onNavigatorEvent:  props => event => {
+    console.log('CaTableView', event)
+    switch (event.id) {
+      case 'didAppear':
+        const {navigator, caPatient: {form: { isDirty }}} = props
+      
+        if (isDirty)
+          navigator.setButtons({rightButtons: [saveButton]})
+        else
+          navigator.setButtons({rightButtons: [saveButtonDisabled]})
+        
+        return
+      case 'save':
+        // Some epic; if successful, disable button & set isDirty to false
+        props.navigator.setButtons({rightButtons: [saveButtonDisabled]})
+      default:
+        return
+    }
+  }
+})
+
+const Presentation = ({navigator, caPatient}) => {
+  
   return (
     <ScrollView contentContainerStyle={styles.stage}>
       <TableView>
@@ -115,4 +146,6 @@ const styles = StyleSheet.create({
 
 export default compose(
   connectFunc,
+  enhanceWithHandlers,
+  enhanceWithLifecycle
 )(Presentation)

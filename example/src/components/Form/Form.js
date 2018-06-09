@@ -10,6 +10,7 @@ import compose from 'recompose/compose'
 import cloneDeep from 'lodash.clonedeep'
 import {Text, ScrollView, View, TouchableHighlight} from 'react-native'
 import styles from './Styles'
+import {doneButton, doneButtonDisabled} from './Buttons'
 
 const {form: {Form}} = t
 
@@ -42,21 +43,31 @@ const enhanceWithDefaultProps = defaultProps({
 
 const enhanceWithHandlers = withHandlers(({onSubmit, onNavigatorEvent}) => {
   let form = null
-  
+
   return {
     onRef: () => (ref) => (form = ref),
-    onChange: ({setFormValues, setFormIsValid, formValues}) => (nextValue) => {
+    onChange: ({setFormValues, setFormIsValid, formValues, navigator}) => (nextValue) => {
       const value = form.getValue()
       if (value) {
         // Set pseudo id from passedFields.
         setFormValues({...value, id: formValues.id})
         setFormIsValid(true)
+        navigator.setButtons({rightButtons: [doneButton]})
       } else {
         setFormIsValid(false)
+        navigator.setButtons({rightButtons: [doneButtonDisabled]})
       }
     },
     onSubmit,
-    onNavigatorEvent
+    onNavigatorEvent: props => event => {
+      switch (event.id) {
+        case 'done':
+          props.onSubmit(props)(event)
+          return props.navigator.pop({animated: true, animationType: 'fade'})
+        default:
+          return
+      }
+    }
   }
 })
 
@@ -64,12 +75,9 @@ const Presentation = ({
   classOf,
   onRef,
   onChange,
-  onSubmit,
   options,
   styles,
-  passedFields,
-  formValues,
-  isValid
+  formValues
 }) => {
   // Late binding.
   return (
@@ -82,11 +90,6 @@ const Presentation = ({
         value={formValues}
         onChange={onChange}
       />
-      {isValid &&
-      <TouchableHighlight style={styles.button} onPress={onSubmit} underlayColor='#99d9f4'>
-        <Text style={styles.buttonText}>Save</Text>
-      </TouchableHighlight>
-      }
     </View>
     </ScrollView>
   )
