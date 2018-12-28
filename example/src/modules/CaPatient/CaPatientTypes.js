@@ -1,6 +1,6 @@
 /* @flow */
 import t from 'tcomb-form-native'
-const { String, Boolean, Number, Date, maybe: Option, struct: Class, list: List } = t
+const { String, Boolean, Number, Date, maybe: Option, struct: Class, list: List, enums: Enumeration, union: Union } = t
 
 export const CaPatientPhoneInfo = Class({
   number: String,
@@ -16,7 +16,25 @@ export const CaPatientIdType = Class({
  id: String,
  type: String
 })
- 
+
+const PreferredNameEnum = Enumeration.of([
+  'Given', 'Nickname', 'Middlename', 'Derivation', 'Other'
+], 'PreferredNameEnum')
+
+const KnownPreferredName = Class({
+  type: PreferredNameEnum
+}, 'KnownPreferredName')
+
+const UnknownPreferredName = KnownPreferredName.extend({
+  label: String,
+}, 'UnknownPreferredName')
+
+const PreferredNameType = Union([KnownPreferredName, UnknownPreferredName], 'PreferredNameUnion')
+
+// const PreferredNameType = List(PreferredNameUnion)
+
+PreferredNameType.dispatch = value => value && value.type === 'Other' ? UnknownPreferredName : KnownPreferredName
+
 export const CaPatientNameComponents = Class({
   academic: Option(String),
   firstName: String,
@@ -27,7 +45,7 @@ export const CaPatientNameComponents = Class({
   lastNamePrefix: Option(String),
   middleName: Option(String),
   preferredName: Option(String),
-  preferredNameType: Option(String),
+  preferredNameType: Option(PreferredNameEnum),
   spouseLastNameFirst: Option(String),
   spouseLastNamePrefix: Option(String),
   suffix: Option(String),

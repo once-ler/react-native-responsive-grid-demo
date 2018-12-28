@@ -149,7 +149,15 @@ const enhanceWithProps = withProps(({caPatient}) => {
         },
         preferredNameType: {
           label: 'Preferred Name Type',
-          editable: !isLoading
+          editable: !isLoading,
+          item: [
+            {
+              label: 'KnownPreferredName'
+            },
+            {
+              label: 'UnknownPreferredName'
+            }
+          ]
         },
         lastNamePrefix: {
           label: 'Last Name Prefix',
