@@ -76,7 +76,12 @@ const Presentation = ({navigator, caPatient}) => {
             cellStyle="Basic"
             title="Demographics"
             accessory="DisclosureIndicator"
-            onPress={() => console.log('Heyho!')}
+            onPress={
+              () => navigator.push({
+                screen: 'example.CaPatientDemographics',
+                passProps: {passedFields: {...caPatient.form.fields}}
+              })
+            }
             contentContainerStyle={{ flex: 1 }}
             cellContentView={
               <TextInput
