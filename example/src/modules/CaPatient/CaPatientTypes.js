@@ -21,6 +21,20 @@ const PreferredNameType = Enumeration.of([
   'Given', 'Nickname', 'Middlename', 'Derivation', 'Other'
 ], 'PreferredNameType')
 
+const Gender = Enumeration.of([
+  'M', 'F'
+], 'Gender')
+
+const Ethnicity = Class({
+  code: String,
+  text: String 
+})
+
+const Race = Class({
+  code: String,
+  text: String 
+})
+
 export const CaPatientNameComponents = Class({
   academic: Option(String),
   firstName: String,
@@ -73,6 +87,13 @@ export const CaPatientEmploymentInformation = Class({
   employerName: String,
   occupation: String,
   phoneNumbers: List(CaPatientPhoneInfo)
+})
+
+export const CaPatientDemographics = Class({
+  ethnicity: List(Ethnicity),
+  race: List(Race),
+  gender: Gender,
+  dateOfBirth: Date
 })
  
 export const CaPatient = Class({

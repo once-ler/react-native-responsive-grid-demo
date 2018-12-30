@@ -1,12 +1,17 @@
 /* @flow */
 import {Navigation} from 'react-native-navigation'
 import Icon from 'react-native-vector-icons/Ionicons'
+import {Provider} from 'react-redux'
 import createStore from '../../createStore'
-import * as appActions from './AppAction' 
+import * as appActions from './AppAction'
+import registerScreens from '../../screens'
 
 const {changeAppRoot, saveIcons, ROOT_LOGIN, ROOT_AFTER_LOGIN} = appActions
 const persistedData = {}
 const store = createStore(persistedData)
+
+// screen related book keeping
+registerScreens(store, Provider)
 
 let settingsIcon;
 let settingsOutlineIcon;

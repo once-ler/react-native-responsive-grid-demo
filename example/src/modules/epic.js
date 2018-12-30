@@ -5,6 +5,7 @@ import {loginEpic, loginSuccessEpic} from './Login/LoginEpic'
 import {userEpic} from './User/UserEpic'
 import {listFetchEpic, listFetchReachedEndEpic} from './Home/FlatListEpic'
 import {userProfileEpic} from './UserProfile/UserProfileEpic'
+import {fetchSuggestEpic} from './Suggest/SuggestEpic' 
 
 export default combineEpics(
   loginEpic,
@@ -12,5 +13,6 @@ export default combineEpics(
   userEpic,
   listFetchEpic,
   listFetchReachedEndEpic,
-  userProfileEpic
+  userProfileEpic,
+  fetchSuggestEpic
 );

@@ -79,7 +79,7 @@ const Presentation = ({navigator, caPatient}) => {
             onPress={
               () => navigator.push({
                 screen: 'example.CaPatientDemographics',
-                passProps: {passedFields: {...caPatient.form.fields}}
+                passProps: {passedFields: {...caPatient.form.demographics.fields}}
               })
             }
             contentContainerStyle={{ flex: 1 }}

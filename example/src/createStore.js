@@ -1,7 +1,7 @@
 /* @flow */
 /* eslint no-undef: 0, flowtype/no-weak-types: 0, max-len: 0 */
 import { createStore as _createStore, applyMiddleware, combineReducers } from 'redux'
-import {Provider} from 'react-redux'
+// import {Provider} from 'react-redux'
 import { createEpicMiddleware } from 'redux-observable'
 import reducer from './modules/reducer'
 import rootEpic from './modules/epic'
@@ -17,7 +17,7 @@ export default function createStore(data = {}) {
   const store = finalCreateStore(finalReducer, data)
 
   // screen related book keeping
-  registerScreens(store, Provider)
+  // registerScreens(store, Provider)
 
   if (process.env.NODE_ENV === 'development' && module.hot) {
     module.hot.accept('./modules/reducer', () => {

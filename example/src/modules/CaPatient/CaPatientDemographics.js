@@ -4,11 +4,12 @@ import React from 'react'
 import withProps from 'recompose/withProps'
 import compose from 'recompose/compose'
 import { Row, Column as Col, Grid} from 'react-native-responsive-grid'
-import {View, Platform} from 'react-native'
+import {View, Platform, Text} from 'react-native'
 import {CaPatient} from './CaPatientTypes'
 import connectFunc from './ConnectFunc'
 import Form from '../../components/Form/Form'
 import {doneButton, doneButtonDisabled} from './CaPatientButtons'
+import AutoComplete from '../../components/AutoComplete/AutoComplete'
 
 const flexLayout = (locals) => {
   return <Grid>{(state, setState) => {
@@ -52,7 +53,21 @@ const enhanceWithProps = withProps(({caPatient}) => {
       fields: {
         ethnicity: {
           label: 'Ethnicity',
-          editable: !isLoading
+          editable: !isLoading,
+          template: locals => {
+            return (
+              <View>
+                <Text>{locals.label}</Text>
+                <AutoComplete />
+              </View>
+            )
+          },
+          item: {
+            fields: {
+              code: {},
+              text: {}
+            }
+          }
         },
         race: {
           label: 'Race',

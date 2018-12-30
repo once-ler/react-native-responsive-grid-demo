@@ -48,6 +48,7 @@ const enhanceWithHandlers = withHandlers(({onSubmit, onNavigatorEvent}) => {
     onRef: () => (ref) => (form = ref),
     onChange: ({setFormValues, setFormIsValid, formValues, navigator}) => (nextValue) => {
       const value = form.getValue()
+      console.log([formValues, value, nextValue])
       if (value) {
         // Set pseudo id from passedFields.
         setFormValues({...value, id: formValues.id})

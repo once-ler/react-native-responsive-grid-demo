@@ -47,6 +47,14 @@ export default {
       isValid: false,
       isLoading: false,
       fields: []
+    },
+    demographics: {
+      original: {},
+      disabled: false,
+      error: null,
+      isValid: false,
+      isLoading: false,
+      fields: { ethnicity: [] }
     }
   }
 }

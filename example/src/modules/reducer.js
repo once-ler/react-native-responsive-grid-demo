@@ -5,6 +5,7 @@ import user from './User/UserAction'
 import home from './Home/FlatListAction'
 import userProfile from './UserProfile/UserProfileAction'
 import caPatient from './CaPatient/CaPatientAction'
+import suggest from './Suggest/SuggestAction'
 
 export default {
   app,
@@ -12,5 +13,6 @@ export default {
   user,
   home,
   userProfile,
-  caPatient
+  caPatient,
+  suggest
 }
