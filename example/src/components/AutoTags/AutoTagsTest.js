@@ -23,28 +23,39 @@ const ConnectFunc = connect(
   dispatch => bindActionCreators(suggestActions, dispatch)
 )
 
+/*
+  https://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/
+  enable http
+  info.plist
+  <key>NSAppTransportSecurity</key>
+  <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
+  </dict>
+*/
 const API = 'http://mygene.info/v2/query?species=human&q='
 
 const handleOnChange = text => {
-  promise = fetch(`${API}${text}`)
-
-  fetchSuggest({ promise })
+  const url = `${API}${text}`
+  // const promise = fetch(url)
+  console.log(url)
+  handleOnChange2(text)
+  // fetchSuggest({ promise, url })
 }
 
-/*
-async function handleOnChange(text) {
-  this.setState({isLoading: true})
-  try {
-    let response = await fetch(`${API}${text}`)
-    let responseJson = await response.json()
 
-    this.setState({genes: responseJson.hits})
+async function handleOnChange2(text) {
+  // this.setState({isLoading: true})
+  try {
+    let response = await fetch(`${API}${text}`).catch(e => console.log(e))
+    let responseJson = await response.json()
+    console.log(responseJson)
+    // this.setState({genes: responseJson.hits})
   } catch (error) {
     console.error(error); 
   }
-  this.setState({isLoading: false})
+  // this.setState({isLoading: false})
 }
-*/
 
 class App extends Component {
   state = {
@@ -56,13 +67,21 @@ class App extends Component {
     console.log('Called')
   }
 
+  componentWillMount() {
+    console.log('Will count');
+  }
+
+  componentDidMount() {
+    console.log('mounted')
+  }
+
   render() {
     console.log('Rendering')
     
     const {data} = this.props
-    return (<View style={styles.container}>
+    return (
+      <View style={styles.container}>
         <Text>Autocomplete Tags</Text>
-        {/*
         <AutoTags
           autoCapitalize="none"
           autoCorrect={false}
@@ -71,7 +90,6 @@ class App extends Component {
           onChangeText={handleOnChange}
           suggestions={data}
         />
-        */}
       </View>
     )
   }
@@ -95,4 +113,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default App;
+export default ConnectFunc(App);

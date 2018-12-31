@@ -44,6 +44,7 @@ export default function reducer(state = initialState, action = {}) {
         error: null
       };
     case FETCH_SUGGEST_FAIL:
+      console.log(action)
       return {
         ...state,
         loading: false,

@@ -9,6 +9,7 @@ import UserProfile from '../modules/UserProfile/UserProfile'
 import CaTableView from '../modules/CaPatient/CaTableView'
 import CaPatientNameComponents from '../modules/CaPatient/CaPatientNameComponents'
 import CaPatientDemographics from '../modules/CaPatient/CaPatientDemographics'
+import AutoTagsTest from '../components/AutoTags/AutoTagsTest'
 
 export default (store, Provider) =>  {
   Navigation.registerComponent('example.Login', () => Login, store, Provider)
@@ -21,4 +22,5 @@ export default (store, Provider) =>  {
   Navigation.registerComponent('example.CaTableView', () => CaTableView, store, Provider)
   Navigation.registerComponent('example.CaPatientNameComponents', () => CaPatientNameComponents, store, Provider)
   Navigation.registerComponent('example.CaPatientDemographics', () => CaPatientDemographics, store, Provider)
+  Navigation.registerComponent('example.AutoTagsTest', () => AutoTagsTest, store, Provider)
 }

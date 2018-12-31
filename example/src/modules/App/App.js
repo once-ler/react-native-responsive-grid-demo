@@ -90,8 +90,8 @@ export default class App {
               navigatorStyle: {}
             },
             {
-              label: 'Search',
-              screen: 'example.UserProfile',
+              label: 'Test',
+              screen: 'example.AutoTagsTest',
               icon: require('../../img/checkmark.png'),
               selectedIcon: require('../../img/checkmark.png'),
               title: 'Hey',
