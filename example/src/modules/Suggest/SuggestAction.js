@@ -1,18 +1,18 @@
-const FETCH_SUGGEST = 'FETCH_SUGGEST';
-const FETCH_SUGGEST_SUCCESS = 'FETCH_SUGGEST_SUCCESS';
-const FETCH_SUGGEST_FAIL = 'FETCH_SUGGEST_FAIL';
-const FETCH_SUGGEST_CANCELLED = 'FETCH_SUGGEST_CANCELLED'
-const FETCH_SUGGEST_SELECTED = 'FETCH_SUGGEST_SELECTED';
-const FETCH_SUGGEST_SELECTED_PRE_SUCCESS = 'FETCH_SUGGEST_SELECTED_PRE_SUCCESS';
-const FETCH_SUGGEST_SELECTED_SUCCESS = 'FETCH_SUGGEST_SELECTED_SUCCESS';
-const FETCH_SUGGEST_SELECTED_FAIL = 'FETCH_SUGGEST_SELECTED_FAIL';
-const UPDATE_INPUT_VALUE = 'UPDATE_INPUT_VALUE';
-const DEFAULT_SUGGEST = 'DEFAULT_SUGGEST';
-const CLEAR_SUGGEST = 'CLEAR_SUGGEST';
-const SUGGEST_SELECTED = 'SUGGEST_SELECTED';
-const SUGGEST_COLUMNS = 'SUGGEST_COLUMNS';
-const SUGGEST_COLUMN_COUNT = 'SUGGEST_COLUMN_COUNT';
-const SUGGEST_ROW_COUNT = 'SUGGEST_ROW_COUNT';
+export const FETCH_SUGGEST = 'FETCH_SUGGEST';
+export const FETCH_SUGGEST_SUCCESS = 'FETCH_SUGGEST_SUCCESS';
+export const FETCH_SUGGEST_FAIL = 'FETCH_SUGGEST_FAIL';
+export const FETCH_SUGGEST_CANCELLED = 'FETCH_SUGGEST_CANCELLED'
+export const FETCH_SUGGEST_SELECTED = 'FETCH_SUGGEST_SELECTED';
+export const FETCH_SUGGEST_SELECTED_PRE_SUCCESS = 'FETCH_SUGGEST_SELECTED_PRE_SUCCESS';
+export const FETCH_SUGGEST_SELECTED_SUCCESS = 'FETCH_SUGGEST_SELECTED_SUCCESS';
+export const FETCH_SUGGEST_SELECTED_FAIL = 'FETCH_SUGGEST_SELECTED_FAIL';
+export const UPDATE_INPUT_VALUE = 'UPDATE_INPUT_VALUE';
+export const DEFAULT_SUGGEST = 'DEFAULT_SUGGEST';
+export const CLEAR_SUGGEST = 'CLEAR_SUGGEST';
+export const SUGGEST_SELECTED = 'SUGGEST_SELECTED';
+export const SUGGEST_COLUMNS = 'SUGGEST_COLUMNS';
+export const SUGGEST_COLUMN_COUNT = 'SUGGEST_COLUMN_COUNT';
+export const SUGGEST_ROW_COUNT = 'SUGGEST_ROW_COUNT';
 
 const initialState = {
   data: null,
@@ -32,19 +32,22 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case FETCH_SUGGEST:
+      console.log(action)
       return {
         ...state,
+        ...action,
         loading: true
       };
     case FETCH_SUGGEST_SUCCESS:
-      return {
+    console.log(action)  
+    return {
         ...state,
         loading: false,
         data: {...action},
         error: null
       };
     case FETCH_SUGGEST_FAIL:
-      console.log(action)
+    console.log(action)
       return {
         ...state,
         loading: false,
@@ -125,7 +128,10 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-export const fetchSuggest = params => params.suggestType ? ({...params, type: params.suggestType}) : ({ ...params, type: FETCH_SUGGEST });
+export const fetchSuggest = params => {
+  console.log(params)
+  return params.suggestType ? ({...params, type: params.suggestType}) : ({ ...params, type: FETCH_SUGGEST });
+}
 export const fetchSuggestSelected = params => params.suggestSelectedType ? ({...params, type: params.suggestSelectedType}) : ({ ...params, type: FETCH_SUGGEST_SELECTED });
 export const fetchSuggestSuccess = payload => ({ type: FETCH_SUGGEST_SUCCESS, payload });
 export const fetchSuggestSelectedPreSuccess = payload => ({ type: FETCH_SUGGEST_SELECTED_PRE_SUCCESS, payload });

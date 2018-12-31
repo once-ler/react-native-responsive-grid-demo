@@ -12,8 +12,6 @@ import {bindActionCreators} from 'redux'
 import * as suggestActions from '../../modules/Suggest/SuggestAction'
 import createStore from '../../createStore'
 
-const {fetchSuggest} = suggestActions
-
 // const store = createStore()
 
 const ConnectFunc = connect(
@@ -35,14 +33,16 @@ const ConnectFunc = connect(
 */
 const API = 'http://mygene.info/v2/query?species=human&q='
 
-const handleOnChange = text => {
+function handleOnChange(text) {
   const url = `${API}${text}`
-  // const promise = fetch(url)
-  console.log(url)
-  handleOnChange2(text)
-  // fetchSuggest({ promise, url })
+  const promise = fetch(url).then(d => d.json())
+  // handleOnChange2(text)
+  // console.log(this)
+  const { fetchSuggest } = this.props
+  // fetchSuggest({ promise })
+  // This will also work now:
+  fetchSuggest({ url })
 }
-
 
 async function handleOnChange2(text) {
   // this.setState({isLoading: true})
@@ -64,7 +64,7 @@ class App extends Component {
 
   constructor (props) {
     super(props)
-    console.log('Called')
+    handleOnChange = handleOnChange.bind(this)
   }
 
   componentWillMount() {
