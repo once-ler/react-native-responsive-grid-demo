@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
+  TouchableHighlight,
   View,
   Text
 } from 'react-native';
@@ -16,7 +17,8 @@ import createStore from '../../createStore'
 
 const ConnectFunc = connect(
   state => ({
-    suggestions: state.suggest.suggestions
+    suggest: state.suggest,
+    data: state.suggest.data
   }),
   dispatch => bindActionCreators(suggestActions, dispatch)
 )
@@ -59,7 +61,7 @@ async function handleOnChange2(text) {
 
 class App extends Component {
   state = {
-    bogus: false
+    tagsSelected: []
   }
 
   constructor (props) {
@@ -75,22 +77,81 @@ class App extends Component {
     console.log('mounted')
   }
 
+  customRenderTags = tags => {
+    //override the tags render
+    return (
+      <View style={styles.customTagsContainer}>
+        {this.state.tagsSelected.map((t, i) => {
+          const {item: {name}} = t
+          return (
+            <TouchableHighlight
+              key={i}
+              style={styles.customTag}
+              onPress={() => this.handleDelete(i)}
+            >
+              <Text style={{ color: "gray" }}>
+                {i}) {name}
+              </Text>
+            </TouchableHighlight>
+          );
+        })}
+      </View>
+    );
+  };
+
+  handleDelete = index => {
+    //tag deleted, remove from our tags array
+    let tagsSelected = this.state.tagsSelected;
+    tagsSelected.splice(index, 1);
+    this.setState({ tagsSelected });
+  }
+  
+  handleAddition = suggestion => {
+    console.log(this.state.tagsSelected)
+    // TODO: make sure the tagsSelected container does not already contain this item.  
+    this.setState({ tagsSelected: this.state.tagsSelected.concat([suggestion]) });
+  }
+
   render() {
-    console.log('Rendering')
-    
     const {data} = this.props
+    
+    const suggestions = data && data.hits ? data.hits : []
+
     return (
       <View style={styles.container}>
-        <Text>Autocomplete Tags</Text>
-        <AutoTags
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Enter gene symbol"
-          containerStyle={styles.autocompleteContainer}
-          onChangeText={handleOnChange}
-          suggestions={data}
-        />
+        <View style={styles.autocompleteContainer}>
+        <Text style={styles.label}>Recipients</Text>
+          <AutoTags
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Enter gene symbol"
+            itemHeight={20}
+            maxItems={6}
+            onChangeText={handleOnChange}
+            suggestions={suggestions}
+            tagsSelected={this.state.tagsSelected}
+            handleAddition={this.handleAddition}
+            handleDelete={this.handleDelete}
+            renderTags={this.customRenderTags}
+            renderSuggestion={
+              suggestion => {
+                const {taxid, symbol, name, entrezgene, _id} = suggestion.item
+                // console.log(suggestion)
+                return <Text style={styles.itemText}>{_id} {taxid} {symbol} {name})</Text>
+              }
+            }
+            renderSeparator={() => (<View
+              style={{
+                height: 1,
+                width: "86%",
+                backgroundColor: "#CED0CE",
+                marginLeft: "14%"
+              }}
+            />)}
+          />
+        </View>
       </View>
+      
     )
   }
 }
@@ -110,6 +171,15 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     zIndex: 1
+  },
+  itemText: {
+    fontSize: 15,
+    margin: 2
+  },
+  label: {
+    color: "#614b63",
+    fontWeight: "bold",
+    marginBottom: 10
   }
 })
 

@@ -43,7 +43,7 @@ export default function reducer(state = initialState, action = {}) {
     return {
         ...state,
         loading: false,
-        data: {...action},
+        data: action.payload,
         error: null
       };
     case FETCH_SUGGEST_FAIL:
