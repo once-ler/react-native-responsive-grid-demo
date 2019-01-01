@@ -180,9 +180,10 @@ export default class AutoTags extends Component {
 
 const styles = StyleSheet.create({
   AutoTags: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "flex-start"
+    // flexDirection: "row",
+    // flexWrap: "wrap",
+    // alignItems: "flex-start"
+    alignItems: "stretch"
   },
   tags: {
     flexDirection: "row",

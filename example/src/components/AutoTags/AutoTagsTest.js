@@ -11,9 +11,17 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as suggestActions from '../../modules/Suggest/SuggestAction'
-import createStore from '../../createStore'
+import withState from 'recompose/withState'
+import withHandlers from 'recompose/withHandlers'
+import defaultProps from 'recompose/defaultProps'
+import compose from 'recompose/compose'
 
-// const store = createStore()
+// User need to override parseForSuggestions as needed
+const enhanceWithDefaultProps = defaultProps({
+  title: 'Search',
+  placeholder: 'Enter item to search',
+  parseForSuggestions: data => data && data.hits ? data.hits : []
+})
 
 const ConnectFunc = connect(
   state => ({
@@ -22,6 +30,51 @@ const ConnectFunc = connect(
   }),
   dispatch => bindActionCreators(suggestActions, dispatch)
 )
+
+const enhanceWithTagsSelectedState = withState('tagsSelected', 'setTagsSelected', [])
+
+const enhanceWithHandlers = withHandlers({
+  handleOnChange: ({fetchSuggest}) => text =>
+    fetchSuggest({ url: `${API}${text}` }),
+  handleDelete: ({tagsSelected, setTagsSelected}) => index => {
+    tagsSelected.splice(index, 1)
+    setTagsSelected(tagsSelected)
+  },
+  handleAddition: ({tagsSelected, setTagsSelected}) => suggestion =>
+    setTagsSelected(tagsSelected.concat([suggestion]))
+})
+
+const Presentation = ({data, tagsSelected, handleAddition, handleDelete, handleOnChange, parseForSuggestions,
+  renderTags, renderSuggestion, renderSeparator, title, placeholder}) => (
+  <View style={styles.container}>
+    <View style={styles.autocompleteContainer}>
+      <Text style={styles.label}>{title}</Text>
+        <AutoTags
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder={placeholder}
+          itemHeight={20}
+          maxItems={6}
+          onChangeText={handleOnChange}
+          suggestions={parseForSuggestions(data)}
+          tagsSelected={tagsSelected}
+          handleAddition={handleAddition}
+          handleDelete={handleDelete}
+          renderTags={renderTags}
+          renderSuggestion={renderSuggestion}
+          renderSeparator={renderSeparator}
+      />
+    </View>
+  </View>
+)
+
+export default compose(
+  ConnectFunc,
+  enhanceWithDefaultProps,
+  enhanceWithTagsSelectedState,
+  enhanceWithHandlers
+)(Presentation)
+
 
 /*
   https://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/
@@ -47,16 +100,13 @@ function handleOnChange(text) {
 }
 
 async function handleOnChange2(text) {
-  // this.setState({isLoading: true})
   try {
     let response = await fetch(`${API}${text}`).catch(e => console.log(e))
     let responseJson = await response.json()
     console.log(responseJson)
-    // this.setState({genes: responseJson.hits})
   } catch (error) {
     console.error(error); 
   }
-  // this.setState({isLoading: false})
 }
 
 class App extends Component {
@@ -167,9 +217,9 @@ const styles = StyleSheet.create({
   },
   autocompleteContainer: {
     flex: 1,
-    left: 0,
+    left: 20,
     position: 'absolute',
-    right: 0,
+    right: 20,
     top: 0,
     zIndex: 1
   },
@@ -184,4 +234,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ConnectFunc(App);
+// export default ConnectFunc(App);
