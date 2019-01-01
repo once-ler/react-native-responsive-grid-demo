@@ -39,13 +39,14 @@ export default class AutoTags extends Component {
     return (
       <View style={this.props.tagStyles || styles.tags}>
         {this.props.tagsSelected.map((t, i) => {
+          const item = t.item
           return (
             <TouchableHighlight
               key={i}
               style={[tagMargins, styles.tag]}
               onPress={() => this.props.handleDelete(i)}
             >
-              <Text>{t.name}</Text>
+              <Text>{item.name}</Text>
             </TouchableHighlight>
           );
         })}
@@ -117,6 +118,15 @@ export default class AutoTags extends Component {
     this.setState({ query: "" });
   };
 
+  renderSeparator = () => (<View
+    style={{
+      height: 1,
+      width: "86%",
+      backgroundColor: "#CED0CE",
+      marginLeft: "14%"
+    }}
+  />);
+
   render() {
     const { query } = this.state;
     // const data = this.filterData(query);
@@ -142,13 +152,14 @@ export default class AutoTags extends Component {
               {this.props.renderSuggestion ? (
                 this.props.renderSuggestion(suggestion)
               ) : (
-                <Text>{suggestion.name}</Text>
+                <Text>{suggestion.item.name}</Text>
               )}
             </TouchableOpacity>
           )}
           inputContainerStyle={
             this.props.inputContainerStyle || styles.inputContainerStyle
           }
+          renderSeparator={this.props.renderSeparator || this.renderSeparator}
           containerStyle={this.props.containerStyle || styles.containerStyle}
           underlineColorAndroid="transparent"
           style={{ backgroundColor: "#efeaea" }}

@@ -99,6 +99,20 @@ class App extends Component {
     );
   };
 
+  customRenderSuggestion = suggestion => {
+    const {taxid, symbol, name, entrezgene, _id} = suggestion.item
+    return <Text style={styles.itemText}>{_id} {taxid} {symbol} {name})</Text>
+  }
+
+  customRenderSeparator = () => (<View
+    style={{
+      height: 1,
+      width: "86%",
+      backgroundColor: "#CED0CE",
+      marginLeft: "14%"
+    }}
+  />)
+
   handleDelete = index => {
     //tag deleted, remove from our tags array
     let tagsSelected = this.state.tagsSelected;
@@ -132,22 +146,9 @@ class App extends Component {
             tagsSelected={this.state.tagsSelected}
             handleAddition={this.handleAddition}
             handleDelete={this.handleDelete}
-            renderTags={this.customRenderTags}
-            renderSuggestion={
-              suggestion => {
-                const {taxid, symbol, name, entrezgene, _id} = suggestion.item
-                // console.log(suggestion)
-                return <Text style={styles.itemText}>{_id} {taxid} {symbol} {name})</Text>
-              }
-            }
-            renderSeparator={() => (<View
-              style={{
-                height: 1,
-                width: "86%",
-                backgroundColor: "#CED0CE",
-                marginLeft: "14%"
-              }}
-            />)}
+            // renderTags={this.customRenderTags}
+            // renderSuggestion={customRenderSuggestion}
+            // renderSeparator={customRenderSeparator}
           />
         </View>
       </View>
