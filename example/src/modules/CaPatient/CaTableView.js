@@ -74,7 +74,22 @@ const Presentation = ({navigator, caPatient}) => {
         <Section header="Demographics">
           <Cell
             cellStyle="Basic"
-            title="Demographics"
+            title="Ethnicity"
+            accessory="DisclosureIndicator"
+            onPress={
+              () => navigator.push({
+                screen: 'example.CaPatientEthnicity',
+                passProps: {passedFields: {...caPatient.form.demographics.fields}}
+              })
+            }
+            contentContainerStyle={{ flex: 1 }}
+            cellContentView={
+              <Text style={{ fontSize: 16, flex: 1 }}>Ethnicity Values</Text>
+            }
+          />
+          <Cell
+            cellStyle="Basic"
+            title="Race"
             accessory="DisclosureIndicator"
             onPress={
               () => navigator.push({
@@ -84,10 +99,7 @@ const Presentation = ({navigator, caPatient}) => {
             }
             contentContainerStyle={{ flex: 1 }}
             cellContentView={
-              <TextInput
-                style={{ fontSize: 16, flex: 1 }}
-                placeholder="TextInput"
-              />
+              <Text style={{ fontSize: 16, flex: 1 }}>Race Values</Text>
             }
           />
         </Section>

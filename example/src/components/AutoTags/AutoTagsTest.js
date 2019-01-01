@@ -16,6 +16,7 @@ import withHandlers from 'recompose/withHandlers'
 import defaultProps from 'recompose/defaultProps'
 import compose from 'recompose/compose'
 
+import AutoTagsMod from '../../modules/AutoTags/AutoTags'
 // User need to override parseForSuggestions as needed
 const enhanceWithDefaultProps = defaultProps({
   title: 'Search',
@@ -23,7 +24,7 @@ const enhanceWithDefaultProps = defaultProps({
   parseForSuggestions: data => data && data.hits ? data.hits : []
 })
 
-const ConnectFunc = connect(
+const connectFunc = connect(
   state => ({
     suggest: state.suggest,
     data: state.suggest.data
@@ -68,13 +69,16 @@ const Presentation = ({data, tagsSelected, handleAddition, handleDelete, handleO
   </View>
 )
 
+/*
 export default compose(
-  ConnectFunc,
+  connectFunc,
   enhanceWithDefaultProps,
   enhanceWithTagsSelectedState,
   enhanceWithHandlers
 )(Presentation)
+*/
 
+export default AutoTagsMod
 
 /*
   https://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/
@@ -234,4 +238,4 @@ const styles = StyleSheet.create({
   }
 })
 
-// export default ConnectFunc(App);
+// export default connectFunc(App);

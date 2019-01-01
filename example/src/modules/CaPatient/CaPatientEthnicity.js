@@ -1,42 +1,29 @@
 /* @flow */
 import React from 'react'
-// import setStatic from 'recompose/setStatic'
 import withProps from 'recompose/withProps'
 import compose from 'recompose/compose'
 import { Row, Column as Col, Grid} from 'react-native-responsive-grid'
-import {View, Platform, Text} from 'react-native'
+import {StyleSheet, View, Platform, Text} from 'react-native'
 import {CaPatient} from './CaPatientTypes'
 import connectFunc from './ConnectFunc'
 import Form from '../../components/Form/Form'
-import {doneButton, doneButtonDisabled} from './CaPatientButtons'
-// import AutoComplete from '../../components/AutoComplete/AutoComplete'
+// import {doneButton, doneButtonDisabled} from './CaPatientButtons'
 import AutoTags from '../AutoTags/AutoTags'
 
 const flexLayout = (locals) => {
-  return <Grid>{(state, setState) => {
-    return (
-    <Col fullWidth>
-      <Row>
-        <Col size={90} offset={6} >
-          <Row>
-            <Col size={45} smSize={100}>
-              <View>{locals.inputs.ethnicity}</View>
-            </Col>
-            <Col size={45} smSize={100}>
-              <View>{locals.inputs.race}</View>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      
-    </Col>
-    
-    
-    )
-  }
-  }
-  </Grid>
+  return <View style={styles.autocompleteContainer}>{locals.inputs.ethnicity}</View>
 }
+
+const styles = StyleSheet.create({
+  autocompleteContainer: {
+    flex: 1,
+    left: 20,
+    position: 'absolute',
+    right: 20,
+    top: -20,
+    zIndex: 1
+  }
+})
 
 const enhanceWithProps = withProps(({caPatient}) => {
   const { form: { isLoading } } = caPatient
@@ -44,7 +31,7 @@ const enhanceWithProps = withProps(({caPatient}) => {
   return {
     classOf: CaPatient,
     onSubmit: ({formValues, onCaPatientFormFieldChange, navigator}) => e => {
-      onCaPatientFormFieldChange('demograhics', formValues)
+      onCaPatientFormFieldChange('demograhics:ethnicity', formValues)
       // Go back to previous page.
       // navigator.pop({animated: true, animationType: 'fade'})
     },
@@ -59,29 +46,14 @@ const enhanceWithProps = withProps(({caPatient}) => {
             return (
               <View>
                 <Text>{locals.label}</Text>
-                <View style={{height: 100}}>
                 <AutoTags />
-                </View>
-              </View>
-            )
-          }
-        },
-        race: {
-          label: 'Race',
-          editable: !isLoading,
-          template: locals => {
-            return (
-              <View>
-                <Text>{locals.label}</Text>
-                <View style={{height: 100}}>
-                <AutoTags />
-                </View>
               </View>
             )
           }
         }
       }
     }
+
   }
 })
 
