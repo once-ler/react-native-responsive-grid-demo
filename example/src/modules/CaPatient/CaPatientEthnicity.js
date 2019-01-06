@@ -46,7 +46,9 @@ const enhanceWithProps = withProps(({caPatient}) => {
             return (
               <View>
                 <Text>{locals.label}</Text>
-                <AutoTags />
+                <AutoTags 
+                  onTagsChange={tags => console.log(tags)}
+                />
               </View>
             )
           }

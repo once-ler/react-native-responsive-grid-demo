@@ -20,7 +20,8 @@ import compose from 'recompose/compose'
 const enhanceWithDefaultProps = defaultProps({
   placeholder: 'Enter item to search',
   searchUrl: 'http://mygene.info/v2/query?species=human&q=',
-  parseForSuggestions: data => data && data.hits ? data.hits : []
+  parseForSuggestions: data => data && data.hits ? data.hits : [],
+  onTagsChange: tags => tags
 })
 
 const connectFunc = connect(
@@ -36,12 +37,16 @@ const enhanceWithTagsSelectedState = withState('tagsSelected', 'setTagsSelected'
 const enhanceWithHandlers = withHandlers({
   handleOnChange: ({searchUrl, fetchSuggest}) => text =>
     fetchSuggest({ url: `${searchUrl}${text}` }),
-  handleDelete: ({tagsSelected, setTagsSelected}) => index => {
+  handleDelete: ({tagsSelected, setTagsSelected, onTagsChange}) => index => {
     tagsSelected.splice(index, 1)
     setTagsSelected(tagsSelected)
+    onTagsChange(tagsSelected)
   },
-  handleAddition: ({tagsSelected, setTagsSelected}) => suggestion =>
-    setTagsSelected(tagsSelected.concat([suggestion]))
+  handleAddition: ({tagsSelected, setTagsSelected, onTagsChange}) => suggestion => {
+    tagsSelected = tagsSelected.concat([suggestion])
+    setTagsSelected(tagsSelected)
+    onTagsChange(tagsSelected)
+  }
 })
 
 const Presentation = ({data, tagsSelected, handleAddition, handleDelete, handleOnChange, parseForSuggestions,

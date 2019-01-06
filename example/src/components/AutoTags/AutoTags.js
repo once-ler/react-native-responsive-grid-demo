@@ -12,7 +12,8 @@ import {
   Text,
   TouchableHighlight,
   TouchableOpacity,
-  View
+  View,
+  ScrollView
 } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons'
 import Autocomplete from "../AutoComplete/AutoComplete";
@@ -39,10 +40,11 @@ export default class AutoTags extends Component {
 
     return (
       <View style={this.props.tagStyles || styles.tags}>
+        <ScrollView>
         {this.props.tagsSelected.map((t, i) => {
           const item = t.item
           return (
-            <View style={[styles.indicatorContainer]}>
+            <View key={'rm_' + i} style={[styles.indicatorContainer]}>
               <TouchableHighlight
                 key={i}
                 style={[tagMargins, styles.tag]}
@@ -54,6 +56,7 @@ export default class AutoTags extends Component {
             </View>
           );
         })}
+        </ScrollView>
       </View>
     );
   };
@@ -172,8 +175,6 @@ export default class AutoTags extends Component {
               ? "#efeaea"
               : "transparent"
           }}
-          itemHeight={this.props.itemHeight || 15}
-          maxItems={this.props.maxItems || 6}
           {...this.props}
         />
         {this.props.tagsOrientedBelow &&
@@ -196,7 +197,7 @@ const RemoveIndicator = ({onPress}) => {
 
 const border = {
   borderColor: '#b9b9b9',
-  borderBottomWidth: 1,
+  borderWidth: 1,
 }
 
 const padding = {
@@ -242,7 +243,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     // backgroundColor: "#efeaea",
     backgroundColor: "transparent",
-    width: 300
+    width: 300,
+    flex: 1
   },
   tag: {
     ...padding,
