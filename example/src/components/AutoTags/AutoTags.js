@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import Icon from 'react-native-vector-icons/Ionicons'
 import Autocomplete from "../AutoComplete/AutoComplete";
 import {debounce} from '../../util'
 
@@ -41,13 +42,16 @@ export default class AutoTags extends Component {
         {this.props.tagsSelected.map((t, i) => {
           const item = t.item
           return (
-            <TouchableHighlight
-              key={i}
-              style={[tagMargins, styles.tag]}
-              onPress={() => this.props.handleDelete(i)}
-            >
-              <Text>{item.name}</Text>
-            </TouchableHighlight>
+            <View style={[styles.indicatorContainer]}>
+              <TouchableHighlight
+                key={i}
+                style={[tagMargins, styles.tag]}
+                onPress={() => this.props.handleDelete(i)}
+              >
+                <Text>{item.name}</Text>
+              </TouchableHighlight>
+              <RemoveIndicator onPress={() => this.props.handleDelete(i)}/>
+            </View>
           );
         })}
       </View>
@@ -168,6 +172,8 @@ export default class AutoTags extends Component {
               ? "#efeaea"
               : "transparent"
           }}
+          itemHeight={this.props.itemHeight || 15}
+          maxItems={this.props.maxItems || 6}
           {...this.props}
         />
         {this.props.tagsOrientedBelow &&
@@ -178,28 +184,75 @@ export default class AutoTags extends Component {
   }
 }
 
+const RemoveIndicator = ({onPress}) => {
+  return (
+    <TouchableHighlight style={styles.cellAccessoryView} onPress={onPress} >
+      <View style={styles.accessory_disclosureIndicator}>
+        <Icon name="ios-close-outline" size={30} color="#4F8EF7" />
+      </View>
+    </TouchableHighlight>
+  )
+}
+
+const border = {
+  borderColor: '#b9b9b9',
+  borderBottomWidth: 1,
+}
+
+const padding = {
+  padding: 8
+}
+
+const indicatorStyles = {
+  indicatorContainer: {
+    justifyContent: 'space-between',
+    // alignContent: 'space-between',
+    flexDirection: 'row',
+    flex: 1,
+    width: 300,
+    borderBottomWidth: 0.8,
+    borderColor: 'gray'
+  },
+  cellAccessoryView: {
+    justifyContent: 'center',
+  },
+  accessory_disclosureIndicator: {
+    width: 30,
+    height: 30,
+    marginLeft: 7,
+    backgroundColor: 'transparent'
+  }
+}
+
 const styles = StyleSheet.create({
+  ...indicatorStyles,
   AutoTags: {
-    // flexDirection: "row",
+    // flexDirection: "column",
     // flexWrap: "wrap",
     // alignItems: "flex-start"
-    alignItems: "stretch"
+    justifyContent: "center"
+    // alignItems: "center"
   },
   tags: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    ...border,
+    ...padding,
+    // flexDirection: "row",
+    // flexWrap: "wrap",
+    flexDirection: "column",
     alignItems: "flex-start",
-    backgroundColor: "#efeaea",
+    // backgroundColor: "#efeaea",
+    backgroundColor: "transparent",
     width: 300
   },
   tag: {
+    ...padding,
     backgroundColor: "rgb(244, 244, 244)",
     justifyContent: "center",
     alignItems: "center",
-    height: 30,
-    marginLeft: 5,
-    borderRadius: 30,
-    padding: 8
+    height: 35,
+    marginLeft: 5
+    // borderRadius: 30,
+    // padding: 8
   },
   inputContainerStyle: {
     borderRadius: 0,
