@@ -12,6 +12,7 @@ import {bindActionCreators} from 'redux'
 import AutoTags from '../../components/AutoTags/AutoTags';
 import * as suggestActions from '../Suggest/SuggestAction'
 import withState from 'recompose/withState'
+import withProps from 'recompose/withProps'
 import withHandlers from 'recompose/withHandlers'
 import defaultProps from 'recompose/defaultProps'
 import compose from 'recompose/compose'
@@ -21,7 +22,8 @@ const enhanceWithDefaultProps = defaultProps({
   placeholder: 'Enter item to search',
   searchUrl: 'http://mygene.info/v2/query?species=human&q=',
   parseForSuggestions: data => data && data.hits ? data.hits : [],
-  onTagsChange: tags => tags
+  onTagsChange: tags => tags,
+  initialTags: []
 })
 
 const connectFunc = connect(
@@ -43,6 +45,7 @@ const enhanceWithHandlers = withHandlers({
     onTagsChange(tagsSelected)
   },
   handleAddition: ({tagsSelected, setTagsSelected, onTagsChange}) => suggestion => {
+    console.log(suggestion)
     tagsSelected = tagsSelected.concat([suggestion])
     setTagsSelected(tagsSelected)
     onTagsChange(tagsSelected)
@@ -50,7 +53,11 @@ const enhanceWithHandlers = withHandlers({
 })
 
 const Presentation = ({data, tagsSelected, handleAddition, handleDelete, handleOnChange, parseForSuggestions,
-  renderTags, renderSuggestion, renderSeparator, placeholder}) => (
+  renderTags, renderSuggestion, renderSeparator, placeholder, initialTags}) => {
+    
+    // TODO: passed in initialTags props need to added to the state of auto tags.
+
+  return (
   <View style={styles.container}>
     <View style={styles.autocompleteContainer}>
       <AutoTags
@@ -71,6 +78,7 @@ const Presentation = ({data, tagsSelected, handleAddition, handleDelete, handleO
     </View>
   </View>
 )
+}
 
 const styles = StyleSheet.create({
   container: {

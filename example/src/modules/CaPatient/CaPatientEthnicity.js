@@ -43,11 +43,18 @@ const enhanceWithProps = withProps(({caPatient}) => {
           label: 'Ethnicity',
           editable: !isLoading,
           template: locals => {
+            passedTags = locals.value.slice()
+            console.log(passedTags)
             return (
               <View>
                 <Text>{locals.label}</Text>
-                <AutoTags 
-                  onTagsChange={tags => console.log(tags)}
+                <AutoTags
+                  initialTags={passedTags}
+                  onTagsChange={tags => {
+                    console.log(tags)
+                    console.log(locals)
+                  }
+                }
                 />
               </View>
             )

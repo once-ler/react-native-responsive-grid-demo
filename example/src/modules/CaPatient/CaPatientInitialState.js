@@ -54,7 +54,7 @@ export default {
       error: null,
       isValid: false,
       isLoading: false,
-      fields: { ethnicity: [] }
+      fields: { ethnicity: ['ABCD'] }
     }
   }
 }

@@ -228,23 +228,19 @@ const indicatorStyles = {
 const styles = StyleSheet.create({
   ...indicatorStyles,
   AutoTags: {
-    // flexDirection: "column",
-    // flexWrap: "wrap",
-    // alignItems: "flex-start"
+    flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "center"
-    // alignItems: "center"
   },
   tags: {
     ...border,
     ...padding,
-    // flexDirection: "row",
-    // flexWrap: "wrap",
     flexDirection: "column",
     alignItems: "flex-start",
     // backgroundColor: "#efeaea",
     backgroundColor: "transparent",
     width: 300,
-    flex: 1
+    maxHeight: 160
   },
   tag: {
     ...padding,
