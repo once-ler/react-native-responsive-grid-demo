@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const enhanceWithProps = withProps(({caPatient}) => {
+const enhanceWithProps = withProps(({caPatient, suggest, updateTagsSelected}) => {
   const { form: { isLoading } } = caPatient
 
   return {
@@ -43,13 +43,18 @@ const enhanceWithProps = withProps(({caPatient}) => {
           label: 'Ethnicity',
           editable: !isLoading,
           template: locals => {
-            passedTags = locals.value.slice()
-            console.log(passedTags)
+            const passedTags = locals.value.slice()
+            console.log(passedTags.length)
+            if (passedTags.length > 0) {
+              const a = passedTags.map(a => ({item: { _id: a, name: a }}));
+              // console.log(a)
+              updateTagsSelected(a)
+            }
+            
             return (
               <View>
                 <Text>{locals.label}</Text>
                 <AutoTags
-                  initialTags={passedTags}
                   onTagsChange={tags => {
                     console.log(tags)
                     console.log(locals)

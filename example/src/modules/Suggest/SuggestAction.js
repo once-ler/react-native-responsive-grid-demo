@@ -13,6 +13,7 @@ export const SUGGEST_SELECTED = 'SUGGEST_SELECTED';
 export const SUGGEST_COLUMNS = 'SUGGEST_COLUMNS';
 export const SUGGEST_COLUMN_COUNT = 'SUGGEST_COLUMN_COUNT';
 export const SUGGEST_ROW_COUNT = 'SUGGEST_ROW_COUNT';
+export const TAGS_SELECTED = 'TAGS_SELECTED';
 
 const initialState = {
   data: null,
@@ -26,20 +27,21 @@ const initialState = {
   suggestedError: null,
   columns: [],
   columnCount: 50,
-  rowCount: 20
+  rowCount: 20,
+  tagsSelected: [] // AutoComplete Tags
 };
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case FETCH_SUGGEST:
-      console.log(action)
+      // console.log(action)
       return {
         ...state,
         ...action,
         loading: true
       };
     case FETCH_SUGGEST_SUCCESS:
-    console.log(action)  
+    // console.log(action)  
     return {
         ...state,
         loading: false,
@@ -47,7 +49,7 @@ export default function reducer(state = initialState, action = {}) {
         error: null
       };
     case FETCH_SUGGEST_FAIL:
-    console.log(action)
+    //console.log(action)
       return {
         ...state,
         loading: false,
@@ -123,6 +125,11 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         rowCount: action.rowCount
       };
+    case TAGS_SELECTED:
+      return {
+        ...state,
+        tagsSelected: action.value
+      };
     default:
       return state;
   }
@@ -145,3 +152,4 @@ export const clearSuggestions = () => ({ type: CLEAR_SUGGEST });
 export const setColumns = columns => ({ type: SUGGEST_COLUMNS, columns });
 export const setColumnCount = columnCount => ({ type: SUGGEST_COLUMN_COUNT, columnCount });
 export const setRowCount = rowCount => ({ type: SUGGEST_ROW_COUNT, rowCount });
+export const updateTagsSelected = value => ({ type: TAGS_SELECTED, value });

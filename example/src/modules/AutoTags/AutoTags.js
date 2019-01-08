@@ -22,41 +22,40 @@ const enhanceWithDefaultProps = defaultProps({
   placeholder: 'Enter item to search',
   searchUrl: 'http://mygene.info/v2/query?species=human&q=',
   parseForSuggestions: data => data && data.hits ? data.hits : [],
-  onTagsChange: tags => tags,
-  initialTags: []
+  onTagsChange: tags => tags
 })
 
 const connectFunc = connect(
   state => ({
     suggest: state.suggest,
-    data: state.suggest.data
+    data: state.suggest.data,
+    tagsSelected: state.suggest.tagsSelected
   }),
   dispatch => bindActionCreators(suggestActions, dispatch)
 )
 
-const enhanceWithTagsSelectedState = withState('tagsSelected', 'setTagsSelected', [])
+// const enhanceWithTagsSelectedState = withState('tagsSelected', 'setTagsSelected', [])
 
 const enhanceWithHandlers = withHandlers({
   handleOnChange: ({searchUrl, fetchSuggest}) => text =>
     fetchSuggest({ url: `${searchUrl}${text}` }),
-  handleDelete: ({tagsSelected, setTagsSelected, onTagsChange}) => index => {
+  handleDelete: ({tagsSelected, onTagsChange, updateTagsSelected}) => index => {
     tagsSelected.splice(index, 1)
-    setTagsSelected(tagsSelected)
+    // setTagsSelected(tagsSelected)
     onTagsChange(tagsSelected)
+    updateTagsSelected(tagsSelected)
   },
-  handleAddition: ({tagsSelected, setTagsSelected, onTagsChange}) => suggestion => {
-    console.log(suggestion)
+  handleAddition: ({tagsSelected, onTagsChange, updateTagsSelected}) => suggestion => {
     tagsSelected = tagsSelected.concat([suggestion])
-    setTagsSelected(tagsSelected)
+    // setTagsSelected(tagsSelected)
     onTagsChange(tagsSelected)
+    updateTagsSelected(tagsSelected)
   }
 })
 
 const Presentation = ({data, tagsSelected, handleAddition, handleDelete, handleOnChange, parseForSuggestions,
-  renderTags, renderSuggestion, renderSeparator, placeholder, initialTags}) => {
+  renderTags, renderSuggestion, renderSeparator, placeholder}) => {
     
-    // TODO: passed in initialTags props need to added to the state of auto tags.
-
   return (
   <View style={styles.container}>
     <View style={styles.autocompleteContainer}>
@@ -108,8 +107,8 @@ const styles = StyleSheet.create({
 })
 
 export default compose(
-  connectFunc,
   enhanceWithDefaultProps,
-  enhanceWithTagsSelectedState,
-  enhanceWithHandlers
+  connectFunc,
+  // enhanceWithTagsSelectedState,
+  enhanceWithHandlers  
 )(Presentation)

@@ -1,6 +1,6 @@
 import React from 'react'
 import t from 'tcomb-form-native'
-import {connect} from 'react-redux'
+// import {connect} from 'react-redux'
 import defaultProps from 'recompose/defaultProps'
 import lifecycle from 'recompose/lifecycle'
 import shouldUpdate from 'recompose/shouldUpdate'
