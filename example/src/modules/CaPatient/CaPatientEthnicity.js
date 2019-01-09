@@ -1,6 +1,11 @@
 /* @flow */
+
+// TODO: Need to rewrite as factory.
+// https://github.com/gcanti/tcomb-form-native/issues/335
+
 import React from 'react'
 import withProps from 'recompose/withProps'
+import withHandlers from 'recompose/withHandlers'
 import compose from 'recompose/compose'
 import { Row, Column as Col, Grid} from 'react-native-responsive-grid'
 import {StyleSheet, View, Platform, Text} from 'react-native'
@@ -25,12 +30,16 @@ const styles = StyleSheet.create({
   }
 })
 
-const enhanceWithProps = withProps(({caPatient, suggest, updateTagsSelected}) => {
+// const enhanceWithProps = withProps(({caPatient, suggest, updateTagsSelected}) => {
+const enhanceWithProps = withProps(props => {
+  console.log(props)
+  const {caPatient, suggest, updateTagsSelected} = props
   const { form: { isLoading } } = caPatient
 
   return {
     classOf: CaPatient,
     onSubmit: ({formValues, onCaPatientFormFieldChange, navigator}) => e => {
+      console.log(e)
       onCaPatientFormFieldChange('demograhics:ethnicity', formValues)
       // Go back to previous page.
       // navigator.pop({animated: true, animationType: 'fade'})
@@ -44,20 +53,24 @@ const enhanceWithProps = withProps(({caPatient, suggest, updateTagsSelected}) =>
           editable: !isLoading,
           template: locals => {
             const passedTags = locals.value.slice()
-            console.log(passedTags.length)
+            // console.log(passedTags.length)
             if (passedTags.length > 0) {
               const a = passedTags.map(a => ({item: { _id: a, name: a }}));
               // console.log(a)
-              updateTagsSelected(a)
+              // updateTagsSelected(a)
+              // cannot update here
             }
-            
+            console.log(locals)
             return (
               <View>
                 <Text>{locals.label}</Text>
                 <AutoTags
                   onTagsChange={tags => {
-                    console.log(tags)
+                    // console.log(tags)
                     console.log(locals)
+                    // path: ethnicity
+                    // updateTagsSelected(tags)
+                    locals.onChange(tags, [], "ethnicity", "add")
                   }
                 }
                 />
@@ -71,7 +84,18 @@ const enhanceWithProps = withProps(({caPatient, suggest, updateTagsSelected}) =>
   }
 })
 
+const enhanceWithHandlers = withHandlers(({onSubmit, onNavigatorEvent, onChange}) => {
+
+  return {
+    onChange: props => e => {
+      console.log(props)
+    }
+    
+  }
+})
+
 export default compose(
   connectFunc,
+  // enhanceWithHandlers,
   enhanceWithProps
 )(Form)
