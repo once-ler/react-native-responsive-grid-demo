@@ -1,6 +1,8 @@
 /* @flow */
-import t from 'tcomb-form-native'
-const { String, Boolean, Number, Date, maybe: Option, struct: Class, list: List, enums: Enumeration, union: Union } = t
+// import t from 'tcomb-form-native'
+import t from 'tcomb'
+
+export const { String, Boolean, Number, Date, maybe: Option, struct: Class, list: List, enums: Enumeration, union: Union } = t
 
 export const CaPatientPhoneInfo = Class({
   number: String,
@@ -97,26 +99,26 @@ export const CaPatientDemographics = Class({
 })
  
 export const CaPatient = Class({
-  addresses: List(CaPatientAddress),
-  aliases: List(String),
-  careTeam: List(CaPatientCareTeamMember),
+  addresses: Option(List(CaPatientAddress)),
+  aliases: Option(List(String)),
+  careTeam: Option(List(CaPatientCareTeamMember)),
   confidentialName: Option(String),
   createDate: Option(Date),
   dateOfBirth: Date,
-  emergencyContacts: List(CaPatientEmergencyContact),
+  emergencyContacts: Option(List(CaPatientEmergencyContact)),
   employmentInformation: Option(CaPatientEmploymentInformation),
-  ethnicity: List(String),
-  gender: String,
-  historicalIds: List(CaPatientIdType),
+  ethnicity: Option(List(String)),
+  gender: Option(String),
+  historicalIds: Option(List(CaPatientIdType)),
   homeDeployment: Option(String),
-  id: Option(String),
-  ids: List(CaPatientIdType),
+  id: String,
+  ids: Option(List(CaPatientIdType)),
   maritalStatus: Option(String),
   mrn: Option(String),
   name: Option(String),
   nameComponents: List(CaPatientNameComponents),
   nationalIdentifier: Option(String),
-  race: List(String),
+  race: Option(List(String)),
   rank: Option(String),
   status: Option(String)
 })

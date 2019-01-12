@@ -1,10 +1,11 @@
 {
   "name": "react-native-responsive-grid-demo",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "babel-test": "nodemon --exec babel-node __tests__/tcombDeserializationSpec.js"
   },
   "dependencies": {
     "immutable": "^3.8.2",
@@ -24,10 +25,12 @@
     "tcomb-form-native": "^0.6.13"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-jest": "22.4.1",
     "babel-preset-react-native": "4.0.0",
     "faker": "^4.1.0",
     "jest": "22.4.2",
+    "nodemon": "^1.18.9",
     "react-native-dotenv": "^0.2.0",
     "react-test-renderer": "^16.3.0-alpha.1"
   },
