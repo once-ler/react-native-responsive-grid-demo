@@ -13,7 +13,7 @@ import {CaPatient} from './CaPatientTypes'
 import connectFunc from './ConnectFunc'
 import Form from '../../components/Form/Form'
 // import {doneButton, doneButtonDisabled} from './CaPatientButtons'
-import AutoTags from '../AutoTags/AutoTags'
+import AutoTagsFactory from '../AutoTags/AutoTagsFactory'
 
 const flexLayout = (locals) => {
   return <View style={styles.autocompleteContainer}>{locals.inputs.ethnicity}</View>
@@ -33,13 +33,15 @@ const styles = StyleSheet.create({
 // const enhanceWithProps = withProps(({caPatient, suggest, updateTagsSelected}) => {
 const enhanceWithProps = withProps(props => {
   console.log(props)
-  const {caPatient, suggest, updateTagsSelected} = props
+  const {caPatient, suggest, updateTagsSelected, passedFields} = props
   const { form: { isLoading } } = caPatient
 
+  let passedFieldsWithName = passedFields.map(a => ({item: { _id: a, name: a }}))
+  
   return {
     classOf: CaPatient,
     onSubmit: ({formValues, onCaPatientFormFieldChange, navigator}) => e => {
-      console.log(e)
+      console.log(formValues)
       onCaPatientFormFieldChange('demograhics:ethnicity', formValues)
       // Go back to previous page.
       // navigator.pop({animated: true, animationType: 'fade'})
@@ -51,6 +53,11 @@ const enhanceWithProps = withProps(props => {
         ethnicity: {
           label: 'Ethnicity',
           editable: !isLoading,
+          factory: AutoTagsFactory,
+          config: {
+            passedFields: passedFieldsWithName
+          }
+          /*
           template: locals => {
             const passedTags = locals.value.slice()
             // console.log(passedTags.length)
@@ -77,6 +84,7 @@ const enhanceWithProps = withProps(props => {
               </View>
             )
           }
+          */
         }
       }
     }

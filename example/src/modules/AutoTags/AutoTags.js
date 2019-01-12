@@ -54,8 +54,12 @@ const enhanceWithHandlers = withHandlers({
 })
 
 const Presentation = ({data, tagsSelected, handleAddition, handleDelete, handleOnChange, parseForSuggestions,
-  renderTags, renderSuggestion, renderSeparator, placeholder}) => {
-    
+  renderTags, renderSuggestion, renderSeparator, placeholder, passedFields}) => {
+  // console.log(passedFields)
+  
+  // TODO: Remove duplicate
+  // const tagsSelectedAll = tagsSelected.concat([passedFields])
+  
   return (
   <View style={styles.container}>
     <View style={styles.autocompleteContainer}>
