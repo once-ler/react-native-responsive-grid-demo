@@ -118,7 +118,24 @@ export const sampleCaPatient =
     "spouseLastNamePrefix": "",
     "suffix": "",
     "title": ""
-  }],
+  },
+  {
+    "academic": "",
+    "firstName": "DONALD",
+    "givenName": "",
+    "initials": "",
+    "lastName": "DUCK",
+    "lastNameFromSpouse": "",
+    "lastNamePrefix": "",
+    "middleName": "P",
+    "preferredName": "",
+    "preferredNameType": "",
+    "spouseLastNameFirst": "",
+    "spouseLastNamePrefix": "",
+    "suffix": "",
+    "title": ""
+  }
+  ],
   "nationalIdentifier": "",
   "race": ["W","B"],
   "rank": "",

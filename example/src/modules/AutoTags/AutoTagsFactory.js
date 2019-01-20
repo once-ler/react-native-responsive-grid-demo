@@ -23,7 +23,6 @@ import t from 'tcomb-form-native'
 
 const {form: {Component}} = t
 
-
 class AutoTagsFactory extends Component {
   constructor(props) {
     super(props)
@@ -33,14 +32,16 @@ class AutoTagsFactory extends Component {
 
   getTemplate() {
     return function(locals) {
-      console.log(locals)
       return (
         <View>
           <Text>{locals.label}</Text>
           <AutoTags
-            passedFields={locals.config.passedFields}
             onTagsChange={tags => {
-              console.log(tags)
+              if (locals.config.transformTags) {
+                const value = locals.config.transformTags(tags)
+                console.log(value)
+                locals.onChange({value})
+              }
             }
           }
           />

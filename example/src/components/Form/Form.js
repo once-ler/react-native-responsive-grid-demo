@@ -49,9 +49,12 @@ const enhanceWithHandlers = withHandlers(({onSubmit, onNavigatorEvent}) => {
     onChange: ({setFormValues, setFormIsValid, formValues, navigator}) => (nextValue) => {
       const value = form.getValue()
       console.log([formValues, value, nextValue])
+      
       if (value) {
-        // Set pseudo id from passedFields.
-        setFormValues({...value, id: formValues.id})
+        if (!Array.isArray(value)) {
+          // Set pseudo id from passedFields.
+          setFormValues({...value, id: formValues.id})
+        }
         setFormIsValid(true)
         navigator.setButtons({rightButtons: [doneButton]})
       } else {

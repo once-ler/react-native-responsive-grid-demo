@@ -42,7 +42,8 @@ const enhanceWithHandlers = withHandlers({
     console.log('CaTableView', event)
     switch (event.id) {
       case 'didAppear':
-        const {navigator, caPatient: {form: { isDirty }}} = props
+        // const {navigator, caPatient: {form: { isDirty }}} = props
+        const {navigator, caPatient: { isDirty }} = props
       
         if (isDirty)
           navigator.setButtons({rightButtons: [saveButton]})
@@ -95,7 +96,7 @@ const Presentation = ({navigator, caPatient}) => {
             onPress={
               () => navigator.push({
                 screen: 'example.CaPatientEthnicity',
-                passProps: {passedFields: {...caPatient.form.demographics.fields}}
+                passProps: {passedFields: caPatient.context.ethnicity}
               })
             }
             contentContainerStyle={{ flex: 1 }}

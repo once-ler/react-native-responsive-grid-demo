@@ -46,6 +46,13 @@ export default (state = initialState, action) => {
         
       switch (action.subComponent) {
         case 'nameComponents':
+          const nameComponents = state.context.nameComponents.slice()
+          nameComponents[action.payload.id] = action.payload
+
+          const context = { ...state.context, nameComponents }
+          return { ...state, context, isLoading: false, isDirty: true }
+
+          /*
           const fields = state.form.nameComponents.fields.map((item, id) => {
             if (id === action.payload.id) {
               return {...item, ...action.payload}
@@ -57,6 +64,10 @@ export default (state = initialState, action) => {
           const form = {...state.form, nameComponents, isDirty: true}
           
           return { form }
+          */
+        case 'ethnicity':
+          console.log(action.payload)
+          return state
         default:
           return state
       }      

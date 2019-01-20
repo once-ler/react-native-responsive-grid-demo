@@ -210,7 +210,7 @@ const indicatorStyles = {
     // alignContent: 'space-between',
     flexDirection: 'row',
     flex: 1,
-    width: 300,
+    width: 270,
     borderBottomWidth: 0.8,
     borderColor: 'gray'
   },
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   AutoTags: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center"
+    justifyContent: "space-between"
   },
   tags: {
     ...border,
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     // backgroundColor: "#efeaea",
     backgroundColor: "transparent",
-    width: 300,
+    width: 270,
     maxHeight: 160
   },
   tag: {
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     paddingLeft: 5,
     height: 40,
-    width: 300,
+    width: 270,
     justifyContent: "center",
     borderColor: "transparent",
     alignItems: "stretch",
