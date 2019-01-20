@@ -1,12 +1,16 @@
+/* @flow */
 import React from 'react'
 import {connect} from 'react-redux'
 import compose from 'recompose/compose'
+import shouldUpdate from 'recompose/shouldUpdate'
 import lifecycle from 'recompose/lifecycle'
 import withHandlers from 'recompose/withHandlers'
 import {bindActionCreators} from 'redux'
 import { Cell, Section, TableView } from 'react-native-tableview-simple'
 import {ScrollView, StyleSheet, TextInput, Text} from 'react-native'
+import { ENV } from 'react-native-dotenv'
 import * as caPatientActions from './CaPatientAction'
+import {sampleCaPatient} from './CaPatientInitialState'
 import {saveButton, saveButtonDisabled} from '../../components/Form/Buttons'
 
 const connectFunc = connect(
@@ -16,9 +20,20 @@ const connectFunc = connect(
   dispatch => bindActionCreators(caPatientActions, dispatch)
 )
 
+const enhanceWithShouldUpdate = shouldUpdate((props, nextProps) => {
+  return !!nextProps.caPatient.context
+})
+//  !!props.classOf && !!props.onSubmit && !!props.passedFields)
+
 const enhanceWithLifecycle = lifecycle({
   componentDidMount() {
     this.props.navigator.setOnNavigatorEvent(this.props.onNavigatorEvent.bind(this.props))
+
+    // For production: react-native run-ios --configuration Release
+    // Tests
+    // console.log(['props', this.props])
+    if (ENV === 'development')
+      this.props.fetchCaPatientFulfilled(sampleCaPatient)
   }
 })
 
@@ -46,12 +61,13 @@ const enhanceWithHandlers = withHandlers({
 
 const Presentation = ({navigator, caPatient}) => {
   
-  return (
+  return !caPatient.context ? null : (
     <ScrollView contentContainerStyle={styles.stage}>
       <TableView>
       <Section header="Name Components">
           {
-            caPatient.form.nameComponents.fields.map((a, id) => (
+            // caPatient.form.nameComponents.fields.map((a, id) => (
+            caPatient.context.nameComponents.map((a, id) => (
               <Cell
                 key={Math.random()}
                 cellStyle="Basic"
@@ -164,5 +180,6 @@ const styles = StyleSheet.create({
 export default compose(
   connectFunc,
   enhanceWithHandlers,
-  enhanceWithLifecycle
+  enhanceWithLifecycle,
+  enhanceWithShouldUpdate
 )(Presentation)

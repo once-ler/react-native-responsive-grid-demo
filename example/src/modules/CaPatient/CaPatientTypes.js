@@ -20,7 +20,7 @@ export const CaPatientIdType = Class({
 })
 
 const PreferredNameType = Enumeration.of([
-  'Given', 'Nickname', 'Middlename', 'Derivation', 'Other'
+  'Given', 'Nickname', 'Middlename', 'Derivation', ''
 ], 'PreferredNameType')
 
 const Gender = Enumeration.of([
@@ -59,17 +59,17 @@ export const CaPatientNameComponentsList = Class({
 })
  
 export const CaPatientAddress = Class({
-  city: String,
+  city: Option(String),
   country: Option(String),
   county: Option(String),
   district: Option(String),
-  email: List(CaPatientEmailInfo),
+  email: Option(List(CaPatientEmailInfo)),
   houseNumber: Option(String),
   phoneNumbers: List(CaPatientPhoneInfo),
-  postalCode: String,
-  state: String,
+  postalCode: Option(String),
+  state: Option(String),
   street: List(String),
-  type: Option(String)
+  type: String
 })
  
 export const CaPatientCareTeamMember = Class({

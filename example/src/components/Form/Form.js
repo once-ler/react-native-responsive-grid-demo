@@ -22,9 +22,9 @@ const enhanceWithFormState = withState('formValues', 'setFormValues', {})
 
 const enhanceWithFormIsValidState = withState('isValid', 'setFormIsValid', false)
 
-// Users must define classOf, onSubmit, passedValues
+// Users must define classOf, onSubmit, passedFields
 const enhanceWithShouldUpdate = shouldUpdate((props, nextProps) =>
-  !!props.classOf && !!props.onSubmit && !!props.passedValues)
+  !!props.classOf && !!props.onSubmit && !!props.passedFields)
 
 const enhanceWithLifecycle = lifecycle({
   componentDidMount() {

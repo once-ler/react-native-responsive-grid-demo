@@ -1,5 +1,6 @@
 /* @flow */
 import initialState from './CaPatientInitialState'
+import {CaPatient} from './CaPatientTypes'
 
 export const ON_CA_PATIENT_FORM_FIELD_CHANGE = 'ON_CA_PATIENT_FORM_FIELD_CHANGE'
 export const FETCH_CA_PATIENT = 'FETCH_CA_PATIENT'
@@ -19,6 +20,18 @@ export default (state = initialState, action) => {
       return {...state, payload: action.payload, isLoading: true}
     case FETCH_CA_PATIENT_SUCCESS:
     case UPDATE_CA_PATIENT_SUCCESS:
+      // Handle dates
+      let payload = {...action.payload}
+      payload.dateOfBirth && (payload.dateOfBirth = new Date(payload.dateOfBirth))
+      payload.createDate && (payload.createDate = new Date(payload.createDate))
+      let caPatient
+      try {
+        caPatient = CaPatient(payload)
+      } catch (e) {
+        caPatient = CaPatient()
+      }
+      return {...state, context: caPatient, isLoading: false}
+
       return {...state, payload: action.payload, isLoading: false}
     case FETCH_CA_PATIENT_CANCELLED:
     case UPDATE_CA_PATIENT_CANCELLED:
