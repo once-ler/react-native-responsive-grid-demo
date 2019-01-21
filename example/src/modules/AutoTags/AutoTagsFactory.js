@@ -1,5 +1,4 @@
 /* @flow */
-
 import React from 'react';
 import {
   StyleSheet,
@@ -9,7 +8,6 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-// import AutoTags from '../../components/AutoTags/AutoTags';
 import * as suggestActions from '../Suggest/SuggestAction'
 import withState from 'recompose/withState'
 import withProps from 'recompose/withProps'
@@ -20,6 +18,7 @@ import compose from 'recompose/compose'
 
 import AutoTags from './AutoTags'
 import t from 'tcomb-form-native'
+import { UnsubscriptionError } from 'rxjs';
 
 const {form: {Component}} = t
 
@@ -38,11 +37,11 @@ class AutoTagsFactory extends Component {
           <Text>{locals.label}</Text>
           <AutoTags
             onTagsChange={tags => {
+              let value = tags
               if (locals.config.transformTags) {
-                const value = locals.config.transformTags(tags)
-                // console.log(this.setState({value}))
-                locals.onChange({value})
+                value = locals.config.transformTags(tags)
               }
+              locals.onChange(value)
             }
           }
           />
@@ -53,8 +52,8 @@ class AutoTagsFactory extends Component {
 }
 
 AutoTagsFactory.transformer = {
-  format: value => value,
-  parse: value => value,
+  format: value => Array.isArray(value) ? value.join(' ') : value,
+  parse: str => typeof str === 'string' ? str.split(' ') : []
 }
 
 export default AutoTagsFactory

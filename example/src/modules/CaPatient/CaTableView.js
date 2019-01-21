@@ -96,7 +96,7 @@ const Presentation = ({navigator, caPatient}) => {
             onPress={
               () => navigator.push({
                 screen: 'example.CaPatientEthnicity',
-                passProps: {passedFields: {ethnicity: caPatient.context.ethnicity}}
+                passProps: {passedFields: caPatient.context}
               })
             }
             contentContainerStyle={{ flex: 1 }}

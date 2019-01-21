@@ -24,6 +24,9 @@ export default (state = initialState, action) => {
       let payload = {...action.payload}
       payload.dateOfBirth && (payload.dateOfBirth = new Date(payload.dateOfBirth))
       payload.createDate && (payload.createDate = new Date(payload.createDate))
+      
+      return {...state, context: payload, isLoading: false}
+      
       let caPatient
       try {
         caPatient = CaPatient(payload)

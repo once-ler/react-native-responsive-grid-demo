@@ -90,13 +90,6 @@ export const CaPatientEmploymentInformation = Class({
   occupation: String,
   phoneNumbers: List(CaPatientPhoneInfo)
 })
-
-export const CaPatientDemographics = Class({
-  ethnicity: List(Ethnicity),
-  race: List(Race),
-  gender: Gender,
-  dateOfBirth: Date
-})
  
 export const CaPatient = Class({
   addresses: Option(List(CaPatientAddress)),
@@ -104,19 +97,19 @@ export const CaPatient = Class({
   careTeam: Option(List(CaPatientCareTeamMember)),
   confidentialName: Option(String),
   createDate: Option(Date),
-  dateOfBirth: Date,
+  dateOfBirth: Option(Date),
   emergencyContacts: Option(List(CaPatientEmergencyContact)),
   employmentInformation: Option(CaPatientEmploymentInformation),
   ethnicity: Option(List(String)),
   gender: Option(String),
   historicalIds: Option(List(CaPatientIdType)),
   homeDeployment: Option(String),
-  id: String,
+  id: Option(String),
   ids: Option(List(CaPatientIdType)),
   maritalStatus: Option(String),
   mrn: Option(String),
   name: Option(String),
-  nameComponents: List(CaPatientNameComponents),
+  nameComponents: Option(List(CaPatientNameComponents)),
   nationalIdentifier: Option(String),
   race: Option(List(String)),
   rank: Option(String),
