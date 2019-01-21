@@ -23,6 +23,7 @@ import t from 'tcomb-form-native'
 
 const {form: {Component}} = t
 
+// https://github.com/gcanti/tcomb-form-native#custom-factories
 class AutoTagsFactory extends Component {
   constructor(props) {
     super(props)
@@ -39,7 +40,7 @@ class AutoTagsFactory extends Component {
             onTagsChange={tags => {
               if (locals.config.transformTags) {
                 const value = locals.config.transformTags(tags)
-                console.log(value)
+                // console.log(this.setState({value}))
                 locals.onChange({value})
               }
             }

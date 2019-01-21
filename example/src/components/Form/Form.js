@@ -47,6 +47,51 @@ const enhanceWithHandlers = withHandlers(({onSubmit, onNavigatorEvent}) => {
   return {
     onRef: () => (ref) => (form = ref),
     onChange: ({setFormValues, setFormIsValid, formValues, navigator}) => (nextValue) => {
+      console.log(form.refs.input)
+      console.log(form.refs.input.validate.toString())
+      /*
+function validate() {
+        var value = {};
+        var errors = [];
+        var hasError = false;
+        var result = void 0;
+
+        if (this.typeInfo.isMaybe && this.isValueNully()) {
+          this.removeErrors();
+          return new _tcombValidation2.default.ValidationResult({
+            errors: [],
+            value: null
+          });
+        }
+
+        for (var ref in this.refs) {
+          if (this.refs.hasOwnProperty(ref)) {
+            result = this.refs[ref].validate();
+            errors = errors.concat(result.errors);
+            value[ref] = result.value;
+          }
+        }
+
+        if (errors.length === 0) {
+          var InnerType = this.typeInfo.innerType;
+          value = new InnerType(value);
+
+          if (this.typeInfo.isSubtype && errors.length === 0) {
+            result = _tcombValidation2.default.validate(value, this.props.type, this.getValidationOptions());
+            hasError = !result.isValid();
+            errors = errors.concat(result.errors);
+          }
+        }
+
+        this.setState({
+          hasError: hasError
+        });
+        return new _tcombValidation2.default.ValidationResult({
+          errors: errors,
+          value: value
+        });
+      }
+      */
       const value = form.getValue()
       console.log([formValues, value, nextValue])
       
