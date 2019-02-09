@@ -91,8 +91,11 @@ export const sampleCaPatient =
     "occupation": "",
     "phoneNumbers": []
   },
-  "ethnicity": ["N","H"],
-  "gender": "M",
+  "ethnicity": [
+    {"code": "N", "display": "Not of Hispanic descent"},
+    {"code": "H", "display": "Hispanic Descent"}
+  ],
+  "gender": {"code": "M", "display": "Male"},
   "historicalIds": [],
   "homeDeployment": "",
   "id": "935769",
@@ -137,7 +140,10 @@ export const sampleCaPatient =
   }
   ],
   "nationalIdentifier": "",
-  "race": ["W","B"],
+  "race": [
+    {"code": "W", "display": "White"}, 
+    {"code": "B", "display": "African American"}
+  ],
   "rank": "",
   "status": ""
 }

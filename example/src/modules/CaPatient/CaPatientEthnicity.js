@@ -36,7 +36,7 @@ const enhanceWithLifecycle = lifecycle({
   componentDidMount() {
     // Update suugest.tagsSelected
     const caPatient = this.props.caPatient
-    let ethnicityWithName = caPatient.context && caPatient.context.ethnicity ? caPatient.context.ethnicity.map(a => ({item: { _id: a, name: a }})) : []
+    let ethnicityWithName = caPatient.context && caPatient.context.ethnicity ? caPatient.context.ethnicity.map(a => ({item: { _id: a.code, name: a.display }})) : []
 
     this.props.updateTagsSelected(ethnicityWithName)
   }
@@ -48,7 +48,7 @@ const enhanceWithProps = withProps(props => {
   const { form: { isLoading } } = caPatient
 
   // let passedFieldsWithName = passedFields.map(a => ({item: { _id: a, name: a }}))
-  let ethnicityWithName = caPatient.context && caPatient.context.ethnicity ? caPatient.context.ethnicity.map(a => ({item: { _id: a, name: a }})) : []
+  // let ethnicityWithName = caPatient.context && caPatient.context.ethnicity ? caPatient.context.ethnicity.map(a => ({item: { _id: a, name: a }})) : []
 
   return {
     classOf: CaPatient,
@@ -69,6 +69,10 @@ const enhanceWithProps = withProps(props => {
             context: caPatient.context,
             transformTags: function(tags) {
               return tags.map(a => a.item._id)
+            },
+            renderSuggestion: function(suggestion) {
+              const {_id, name} = suggestion.item
+              return <Text>{_id} {name})</Text>
             }
           }
         }

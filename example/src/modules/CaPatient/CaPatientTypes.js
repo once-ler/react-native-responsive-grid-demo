@@ -27,14 +27,19 @@ const Gender = Enumeration.of([
   'M', 'F'
 ], 'Gender')
 
-const Ethnicity = Class({
+const CaPatientEthnicity = Class({
   code: String,
-  text: String 
+  display: String 
 })
 
-const Race = Class({
+const CaPatientRace = Class({
   code: String,
-  text: String 
+  display: String 
+})
+
+const CaPatientGender = Class({
+  code: String,
+  display: String 
 })
 
 export const CaPatientNameComponents = Class({
@@ -100,8 +105,8 @@ export const CaPatient = Class({
   dateOfBirth: Option(Date),
   emergencyContacts: Option(List(CaPatientEmergencyContact)),
   employmentInformation: Option(CaPatientEmploymentInformation),
-  ethnicity: Option(List(String)),
-  gender: Option(String),
+  ethnicity: Option(List(CaPatientEthnicity)),
+  gender: Option(CaPatientGender),
   historicalIds: Option(List(CaPatientIdType)),
   homeDeployment: Option(String),
   id: Option(String),
@@ -111,7 +116,7 @@ export const CaPatient = Class({
   name: Option(String),
   nameComponents: Option(List(CaPatientNameComponents)),
   nationalIdentifier: Option(String),
-  race: Option(List(String)),
+  race: Option(List(CaPatientRace)),
   rank: Option(String),
   status: Option(String)
 })

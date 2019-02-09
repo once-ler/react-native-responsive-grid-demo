@@ -44,6 +44,7 @@ class AutoTagsFactory extends Component {
               locals.onChange(value)
             }
           }
+          renderSuggestion={locals.config.renderSuggestion}
           />
         </View>
       )
